@@ -127,6 +127,11 @@ public class AssetHolder implements Serializable {
         this.ssn = ssn;
     }
 
+    public String getFullName(){
+        return lastName+", "+firstName;
+    }
+    
+    
     @XmlTransient
     public Collection<Equipment> getEquipmentCollection() {
         return equipmentCollection;
