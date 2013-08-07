@@ -4,11 +4,65 @@ To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    
+     <h:body style="background-color: #DFE0E8">
+        
+         <div id="header" class="ui-widget ui-widget-header">
+            <div id="logo">
+                <img src="./img/itc_logo.png" alt="Logo" />
+                <!-- Change -->
+            </div>
+        </div>
+        <p/>
+        <p/>
+
+        <div align="center">
+            <a href="./index.xhtml" style="text-decoration: none"> 
+                <img src="./img/back_to_home.png" title="Home" />
+            </a>
+        </div>
+
+        
+        <h:form id="asset_holder_display">
+            <p:dataTable id="assetHolderTable" var="assetHolder" value="#{assetHolderBean.assetHolderDisplayTable}" rowKey="#{assetHolder.lastName}" paginator="true" rows="10"
+                         filteredValue="#{assetHolderBean.filteredAssetHolders}" >
+
+                <!--                <p:ajax event="rowSelect" update=":form:display" oncomplete="PF('carDialog').show()" />-->
+
+                <f:facet name="header">
+                    List of Employees
+                </f:facet>
+
+                <p:column>
+                    <p:commandButton ajax ="false" action="assetHolder_page" icon="ui-icon-tag" title="Icon Only" style="height: 20px ; width: 20px">
+                        <f:param name="employee_id" value="#{assetHolder.ssn}" />
+                    </p:commandButton>       
+                </p:column>
+
+                <p:column headerText="Name" filterBy="#{assetHolder.lastName}">
+                    #{assetHolder.fullName}                    
+                </p:column>
+
+                <p:column headerText="Company" filterBy="#{assetHolder.company}">   
+                    #{assetHolder.company}
+                </p:column>
+
+                <p:column headerText="Email"  filterBy="#{assetHolder.email}">
+                    #{assetHolder.email}      
+                </p:column>
+                
+                <p:column headerText="SSN"  filterBy="#{assetHolder.ssn}">
+                    #{assetHolder.ssn}      
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+    
+    </h:body>   
 </html>
