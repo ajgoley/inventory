@@ -48,8 +48,9 @@ public class Equipment implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Size(max = 255)
     @Column(name = "serial_number")
-    private Integer serialNumber;
+    private String serialNumber;
     @Lob
     @Column(name = "active")
     private byte[] active;
@@ -98,11 +99,11 @@ public class Equipment implements Serializable {
         this.id = id;
     }
 
-    public Integer getSerialNumber() {
+    public String getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(Integer serialNumber) {
+    public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
     }
 
