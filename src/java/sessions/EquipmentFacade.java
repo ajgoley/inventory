@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -29,17 +30,19 @@ public class EquipmentFacade extends AbstractFacade<Equipment> {
         super(Equipment.class);
     }
     
+    private static Logger log = Logger.getLogger("EquipmentFacade");
     
     //Method used in AssetHolderBean
     public List<Equipment> findAssetHolderEquipment(int assetHolderId) {
       StringBuilder queryString = new StringBuilder();
 
       queryString.append("SELECT e from Equipment e ");
-      queryString.append("WHERE e.employeeId.employeeId = ");
+      queryString.append("WHERE e.assetHolderId.assetHolderId = ");
       queryString.append(assetHolderId);
+      
 
       TypedQuery<Equipment> query = em.createQuery(queryString.toString(), Equipment.class);
-
+      
       return query.getResultList();
 
   }
