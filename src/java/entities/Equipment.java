@@ -5,7 +5,6 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,19 +12,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Internship
+ * @author Network Admin
  */
 @Entity
 @Table(name = "equipment")
@@ -34,9 +30,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Equipment.findAll", query = "SELECT e FROM Equipment e"),
     @NamedQuery(name = "Equipment.findById", query = "SELECT e FROM Equipment e WHERE e.id = :id"),
     @NamedQuery(name = "Equipment.findBySerialNumber", query = "SELECT e FROM Equipment e WHERE e.serialNumber = :serialNumber"),
+    @NamedQuery(name = "Equipment.findByActive", query = "SELECT e FROM Equipment e WHERE e.active = :active"),
     @NamedQuery(name = "Equipment.findByDescription", query = "SELECT e FROM Equipment e WHERE e.description = :description"),
     @NamedQuery(name = "Equipment.findByModel", query = "SELECT e FROM Equipment e WHERE e.model = :model"),
-    @NamedQuery(name = "Equipment.findByCondition", query = "SELECT e FROM Equipment e WHERE e.condition = :condition"),
+    @NamedQuery(name = "Equipment.findByEqCondition", query = "SELECT e FROM Equipment e WHERE e.eqCondition = :eqCondition"),
     @NamedQuery(name = "Equipment.findByBarcode", query = "SELECT e FROM Equipment e WHERE e.barcode = :barcode"),
     @NamedQuery(name = "Equipment.findByItcTag", query = "SELECT e FROM Equipment e WHERE e.itcTag = :itcTag"),
     @NamedQuery(name = "Equipment.findByLocationArea", query = "SELECT e FROM Equipment e WHERE e.locationArea = :locationArea"),
@@ -51,9 +48,8 @@ public class Equipment implements Serializable {
     @Size(max = 255)
     @Column(name = "serial_number")
     private String serialNumber;
-    @Lob
     @Column(name = "active")
-    private byte[] active;
+    private Boolean active;
     @Size(max = 255)
     @Column(name = "description")
     private String description;
@@ -61,8 +57,8 @@ public class Equipment implements Serializable {
     @Column(name = "model")
     private String model;
     @Size(max = 7)
-    @Column(name = "condition")
-    private String condition;
+    @Column(name = "eq_condition")
+    private String eqCondition;
     @Size(max = 255)
     @Column(name = "barcode")
     private String barcode;
@@ -75,14 +71,12 @@ public class Equipment implements Serializable {
     @Size(max = 255)
     @Column(name = "additional_notes")
     private String additionalNotes;
-    @JoinColumn(name = "asset_holder_id", referencedColumnName = "asset_holder_id")
-    @ManyToOne
-    private AssetHolder assetHolderId;
     @JoinColumn(name = "category_id", referencedColumnName = "category_id")
     @ManyToOne
     private Category categoryId;
-    @OneToMany(mappedBy = "equipmentId")
-    private Collection<EquipmentProcessing> equipmentProcessingCollection;
+    @JoinColumn(name = "asset_holder_id", referencedColumnName = "asset_holder_id")
+    @ManyToOne
+    private AssetHolder assetHolderId;
 
     public Equipment() {
     }
@@ -107,11 +101,11 @@ public class Equipment implements Serializable {
         this.serialNumber = serialNumber;
     }
 
-    public byte[] getActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(byte[] active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
@@ -131,12 +125,12 @@ public class Equipment implements Serializable {
         this.model = model;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getEqCondition() {
+        return eqCondition;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setEqCondition(String eqCondition) {
+        this.eqCondition = eqCondition;
     }
 
     public String getBarcode() {
@@ -171,14 +165,6 @@ public class Equipment implements Serializable {
         this.additionalNotes = additionalNotes;
     }
 
-    public AssetHolder getAssetHolderId() {
-        return assetHolderId;
-    }
-
-    public void setAssetHolderId(AssetHolder assetHolderId) {
-        this.assetHolderId = assetHolderId;
-    }
-
     public Category getCategoryId() {
         return categoryId;
     }
@@ -187,13 +173,12 @@ public class Equipment implements Serializable {
         this.categoryId = categoryId;
     }
 
-    @XmlTransient
-    public Collection<EquipmentProcessing> getEquipmentProcessingCollection() {
-        return equipmentProcessingCollection;
+    public AssetHolder getAssetHolderId() {
+        return assetHolderId;
     }
 
-    public void setEquipmentProcessingCollection(Collection<EquipmentProcessing> equipmentProcessingCollection) {
-        this.equipmentProcessingCollection = equipmentProcessingCollection;
+    public void setAssetHolderId(AssetHolder assetHolderId) {
+        this.assetHolderId = assetHolderId;
     }
 
     @Override
