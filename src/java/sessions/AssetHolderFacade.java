@@ -27,4 +27,9 @@ public class AssetHolderFacade extends AbstractFacade<AssetHolder> {
         super(AssetHolder.class);
     }
     
+    
+     public void updateTable(){
+         em.flush();
+     }
+    
 }
