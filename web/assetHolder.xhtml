@@ -1,33 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    
     <h:head>
-        <title>List of Employees</title>
+        <title>Welcome to the Inventory Module</title>
+
     </h:head>
-    
-    
-     <h:body style="background-color: #38587b">
-        
-         <div id="header" class="ui-widget ui-widget-header">
+    <h:body style="background-color: #38587b">
+
+        <div id="header" class="ui-widget ui-widget-header" style="background: #575757!important; border-bottom-color: black!important; border-bottom-width: 5px;
+             border-left-color: #575757; border-right-color: #575757; border-top-color: #575757; height: 54px; ">
             <div id="logo">
-                <img src="./img/itc_logo.png" alt="Logo" />
-                <!-- Change -->
+                <img src="img/itc_logo.png" alt="Logo" />
+                <h:panelGroup layout="block" styleClass="top">
+                    <form>
+                        <div  style="top: 11px!important; left: 40%!important; position: absolute ">
+                            <a href="./faces/inventoryProcessing.xhtml" style="padding-right: 10px; text-decoration: none">
+                                <img src="img/inventory.png" title="Equipment Module" />
+                            </a>
+                            <a href="./faces/assetHolder.xhtml" style="padding-right: 10px;text-decoration: none"> 
+                                <img src="img/employee.png" title="Employee Module" />
+                            </a>
+                            <a href="./faces/index.xhtml" style="padding-right: 10px;text-decoration: none"> 
+                                <img src="img/back_to_home.png" title="Home" />
+                            </a>
+                            <a href="./faces/admin.xhtml" style="padding-right: 10px;text-decoration: none"> 
+                                <img src="img/admin.png" title="Admin" />
+                            </a>
+                        </div>
+                    </form>
+                </h:panelGroup>
             </div>
         </div>
-        <p/>
-        <p/>
 
-        <div align="center">
-            <a href="./index.xhtml" style="text-decoration: none"> 
-                <img src="./img/back_to_home.png" title="Home" />
-            </a>
-        </div>
 
-        
         <h:form id="asset_holder_display">
             <p:dataTable id="assetHolderTable" var="assetHolder" value="#{assetHolderBean.assetHolderDisplayTable}" rowKey="#{assetHolder.lastName}" paginator="true" rows="10"
                          filteredValue="#{assetHolderBean.filteredAssetHolders}" >
@@ -49,13 +55,13 @@
                 <p:column headerText="Email"  filterBy="#{assetHolder.email}">
                     #{assetHolder.email}      
                 </p:column>
-                
+
                 <p:column headerText="SSN"  filterBy="#{assetHolder.ssn}">
                     #{assetHolder.ssn}      
                 </p:column>
-                
-                  <p:column headerText ="View Items">
-                      <p:commandButton ajax ="false" action="assetHolder_page" icon="ui-icon-tag" title="Icon Only" >
+
+                <p:column headerText ="View Items">
+                    <p:commandButton ajax ="false" action="assetHolder_page" icon="ui-icon-tag" title="Icon Only" >
                         <f:param name="asset_holder_id" value="#{assetHolder.ssn}" />
                     </p:commandButton>       
                 </p:column>
@@ -63,6 +69,6 @@
             </p:dataTable>
 
         </h:form>
-    
+
     </h:body>   
 </html>
