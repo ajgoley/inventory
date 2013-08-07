@@ -1,14 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Inventory</title>
+    </h:head>
+    <h:body style="background-color: #38587b">
+
+
+        <div id="header" class="ui-widget ui-widget-header">
+            <div id="logo">
+                <img src="./img/itc_logo.png" alt="Logo" />
+                <!-- Change -->
+            </div>
+        </div>
+        <p/>
+        <p/>
+
+        <div align="center">
+            <a href="./index.xhtml" style="text-decoration: none"> 
+                <img src="./img/back_to_home.png" title="Home" />
+            </a>
+        </div>
+
+        <p:accordionPanel activeIndex="1" multiple="true">
+            <p:tab title="Check-In Item">
+                <h:panelGrid columns="2" cellpadding="10">
+                    
+                </h:panelGrid>
+            </p:tab>
+            <p:tab title="Check-Out" >
+                <h:panelGrid columns="2" cellpadding="10">
+                   
+                </h:panelGrid>
+            </p:tab>
+           
+        </p:accordionPanel>
+
+
+
+
+    </h:body>
 </html>
