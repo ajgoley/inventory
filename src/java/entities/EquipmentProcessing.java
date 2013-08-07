@@ -56,7 +56,7 @@ public class EquipmentProcessing implements Serializable {
     @Size(max = 255)
     @Column(name = "last_used_by")
     private String lastUsedBy;
-    @JoinColumn(name = "equipment_id", referencedColumnName = "serial_number")
+    @JoinColumn(name = "equipment_id", referencedColumnName = "id")
     @ManyToOne
     private Equipment equipmentId;
 
