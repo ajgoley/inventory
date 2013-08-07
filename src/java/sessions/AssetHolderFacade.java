@@ -45,5 +45,9 @@ public class AssetHolderFacade extends AbstractFacade<AssetHolder> {
        query.setParameter("social", social);
        return query.getSingleResult();
     }
+      
+      public void persist(AssetHolder a){
+          em.persist(a);
+      }
     
 }

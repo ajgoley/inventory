@@ -4,6 +4,7 @@
  */
 package beans;
 
+import entities.AssetHolder;
 import entities.Category;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -40,8 +41,11 @@ public class AdminBean {
     Equipment newEquipment;
     // Object to hold the category to be added
     Category newCategory;
+    // Object to hold the employee to be added
+    AssetHolder newAssetHolder;
     Boolean equipmentPanel = false;
     Boolean categoryPanel = false;
+    Boolean assetHolderPanel = false;
     Boolean active;
     String condition;
     int categoryKey;
@@ -51,6 +55,26 @@ public class AdminBean {
      * Creates a new instance of AdminBean
      */
     public AdminBean() {
+    }
+
+    public Boolean getAssetHolderPanel() {
+        return assetHolderPanel;
+    }
+
+    public void setAssetHolderPanel(Boolean assetHolderPanel) {
+        this.assetHolderPanel = assetHolderPanel;
+    }
+
+    public AssetHolder getNewAssetHolder() {
+        return newAssetHolder;
+    }
+
+    public void setNewAssetHolder(AssetHolder newAssetHolder) {
+        this.newAssetHolder = newAssetHolder;
+    }
+    
+    public void initNewAssetHolder(){
+        newAssetHolder = new AssetHolder();
     }
 
     public Boolean getCategoryPanel() {
@@ -116,6 +140,16 @@ public class AdminBean {
             return categoryPanel;
         }
     }
+    
+    public boolean renderAssetHolderPanel() {
+        if (!assetHolderPanel) {
+            assetHolderPanel = true;
+            return assetHolderPanel;
+        } else {
+            assetHolderPanel = false;
+            return assetHolderPanel;
+        }
+    }
 
     public Boolean getActive() {
         return active;
@@ -165,5 +199,12 @@ public class AdminBean {
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
                 "New Category Saved.", "complete"));
         newCategory = null;
+    }
+    
+    public void saveNewEmployee(){
+        assetHolderFacade.persist(newAssetHolder);
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                "New Employee Saved.", "complete"));
+        newAssetHolder = null;
     }
 }

@@ -89,7 +89,7 @@
                     <p:commandButton immediate="true" ajax="false" value="Cancel" actionListener="#{adminBean.renderEquipmentPanel()}" icon="ui-icon-closethick" style="font-size: small;"/>
                 </f:facet>
             </p:panelGrid>
-            <p:growl id="addCat" />
+
             <p:commandButton ajax="false" value="CATEGORY" icon="ui-icon-plusthick" actionListener="#{adminBean.initNewcategory()}" 
                              style="font-size: small;">
                 <f:setPropertyActionListener target="#{adminBean.categoryPanel}" value="#{adminBean.renderCategoryPanel()}"/>
@@ -107,9 +107,36 @@
                     <p:commandButton immediate="true" ajax="false" value="Cancel" actionListener="#{adminBean.renderCategoryPanel()}" icon="ui-icon-closethick" style="font-size: small;" />
                 </f:facet>
             </p:panelGrid>
-            <p:accordionPanel activeIndex="1">
-                <p:tab title="Add New Employee"></p:tab>
-            </p:accordionPanel>
+
+            <p:commandButton ajax="false" value="EMPLOYEE" icon="ui-icon-plusthick" actionListener="#{adminBean.initNewAssetHolder()}" 
+                             style="font-size: small;">
+                <f:setPropertyActionListener target="#{adminBean.assetHolderPanel}" value="#{adminBean.renderAssetHolderPanel()}"/>
+            </p:commandButton>
+            <p:panelGrid columns="2" rendered="#{adminBean.assetHolderPanel}">
+                <f:facet name="header" >Add New Employee</f:facet>
+
+                <h:outputText value="first name: " />
+                <h:inputText value="#{adminBean.newAssetHolder.firstName}" required="true" requiredMessage="Name is required."/>
+                
+                <h:outputText value="last name: " />
+                <h:inputText value="#{adminBean.newAssetHolder.lastName}" required="true" requiredMessage="Name is required."/>
+                
+                <h:outputText value="company: " />
+                <h:inputText value="#{adminBean.newAssetHolder.company}" required="true" requiredMessage="Name is required."/>
+                
+                <h:outputText value="email: " />
+                <h:inputText value="#{adminBean.newAssetHolder.email}" required="true" requiredMessage="Name is required."/>
+                
+                <h:outputText value="ssn: " />
+                <h:inputSecret value="#{adminBean.newAssetHolder.ssn}" required="true" requiredMessage="Name is required."/>
+
+                <f:facet name="footer">
+                    <p:commandButton ajax="false" value="Save" actionListener="#{adminBean.saveNewEmployee()}" icon="ui-icon-check" style="font-size: small;">
+                        <f:setPropertyActionListener target="#{adminBean.assetHolderPanel}" value="#{adminBean.renderAssetHolderPanel()}"/>
+                    </p:commandButton>
+                    <p:commandButton immediate="true" ajax="false" value="Cancel" actionListener="#{adminBean.renderAssetHolderPanel()}" icon="ui-icon-closethick" style="font-size: small;" />
+                </f:facet>
+            </p:panelGrid>
         </h:form>
 
     </h:body>

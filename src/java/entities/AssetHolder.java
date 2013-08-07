@@ -44,12 +44,10 @@ public class AssetHolder implements Serializable {
     @Column(name = "asset_holder_id")
     private Integer assetHolderId;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "first_name")
     private String firstName;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "last_name")
     private String lastName;
