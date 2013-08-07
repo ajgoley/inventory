@@ -32,16 +32,70 @@
                 </h:panelGroup>
             </div>
         </div>
-        <p:accordionPanel activeIndex="1">
-            <p:tab title="Add New Equipment"></p:tab>
-        </p:accordionPanel>
-        <p:accordionPanel activeIndex="1">
-            <p:tab title="Add New Category"></p:tab>
-        </p:accordionPanel>
-        <p:accordionPanel activeIndex="1">
-            <p:tab title="Add New Employee"></p:tab>
-        </p:accordionPanel>
+        <h:form>
+            <p:growl id="addEqiup" />
+            <p:commandButton ajax="false" value="EQUIPMENT" icon="ui-icon-plusthick" actionListener="#{adminBean.initNewEquip()}" 
+                             style="font-size: small;">
+                <f:setPropertyActionListener target="#{adminBean.equipmentPanel}" value="#{adminBean.renderEquipmentPanel()}"/>
+            </p:commandButton>
+            <p:panelGrid columns="4" rendered="#{adminBean.equipmentPanel}">
+                <f:facet name="header" >Add New Equipment</f:facet>
+                <h:outputText value="serial number: " />
+                <h:inputText value="#{adminBean.newEquipment.serialNumber}" />
 
+                <h:outputText value="active? " />
+                <p:selectOneMenu value="#{adminBean.active}">  
+                    <f:selectItem itemLabel="Select One" itemValue="" />  
+                    <f:selectItem itemLabel="TRUE" itemValue="#{true}" />  
+                    <f:selectItem itemLabel="FALSE" itemValue="#{false}" /> 
+                </p:selectOneMenu>  
+
+                <h:outputText value="description: " />
+                <h:inputText value="#{adminBean.newEquipment.description}" />
+
+                <h:outputText value="model: " />
+                <h:inputText value="#{adminBean.newEquipment.model}" />
+
+                <h:outputText value="condition: " />
+                <p:selectOneMenu value="#{adminBean.condition}">  
+                    <f:selectItem itemLabel="Select One" itemValue="" />  
+                    <f:selectItem itemLabel="NEW" itemValue="new" />  
+                    <f:selectItem itemLabel="USED" itemValue="used" /> 
+                    <f:selectItem itemLabel="DAMAGED" itemValue="damaged" /> 
+                </p:selectOneMenu>  
+
+                <h:outputText value="barcode: " />
+                <h:inputText value="#{adminBean.newEquipment.barcode}" />
+
+                <h:outputText value="ITC tag: " />
+                <h:inputText value="#{adminBean.newEquipment.itcTag}" />
+
+                <h:outputText value="location: " />
+                <h:inputText value="#{adminBean.newEquipment.locationArea}" />
+
+                <h:outputText value="notes: " />
+                <h:inputText value="#{adminBean.newEquipment.additionalNotes}" />
+
+                <h:outputText value="category: " />
+                <p:selectOneMenu value="#{adminBean.categoryKey}" required="true" requiredMessage="category is required.">  
+                    <f:selectItem itemLabel="Select One" itemValue="#{null}" />  
+                    <f:selectItems value="#{adminBean.allCategories}" />
+                </p:selectOneMenu>  
+
+                <f:facet name="footer" >
+                    <p:commandButton ajax="false" actionListener="#{adminBean.saveNewEquipment()}" update=":addEquip, @form" value="Save" icon="ui-icon-check" style="font-size: small;">
+                        <f:setPropertyActionListener target="#{adminBean.equipmentPanel}" value="#{adminBean.renderEquipmentPanel()}"/>
+                    </p:commandButton>
+                    <p:commandButton immediate="true" ajax="false" value="Cancel" actionListener="#{adminBean.renderEquipmentPanel()}" icon="ui-icon-closethick" style="font-size: small;"/>
+                </f:facet>
+            </p:panelGrid>
+            <p:accordionPanel activeIndex="1">
+                <p:tab title="Add New Category"></p:tab>
+            </p:accordionPanel>
+            <p:accordionPanel activeIndex="1">
+                <p:tab title="Add New Employee"></p:tab>
+            </p:accordionPanel>
+        </h:form>
 
     </h:body>
 </html>

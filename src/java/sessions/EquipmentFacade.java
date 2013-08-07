@@ -47,4 +47,7 @@ public class EquipmentFacade extends AbstractFacade<Equipment> {
 
   }
     
+    public void persist(Equipment e){
+        em.persist(e);
+    }
 }
