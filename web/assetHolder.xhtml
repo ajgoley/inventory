@@ -38,12 +38,6 @@
                     List of Employees
                 </f:facet>
 
-                <p:column>
-                    <p:commandButton ajax ="false" action="assetHolder_page" icon="ui-icon-tag" title="Icon Only" style="height: 20px ; width: 20px">
-                        <f:param name="employee_id" value="#{assetHolder.ssn}" />
-                    </p:commandButton>       
-                </p:column>
-
                 <p:column headerText="Name" filterBy="#{assetHolder.lastName}">
                     #{assetHolder.fullName}                    
                 </p:column>
@@ -58,6 +52,12 @@
                 
                 <p:column headerText="SSN"  filterBy="#{assetHolder.ssn}">
                     #{assetHolder.ssn}      
+                </p:column>
+                
+                  <p:column headerText ="View Items">
+                      <p:commandButton ajax ="false" action="assetHolder_page" icon="ui-icon-tag" title="Icon Only" >
+                        <f:param name="employee_id" value="#{assetHolder.ssn}" />
+                    </p:commandButton>       
                 </p:column>
 
             </p:dataTable>
