@@ -5,7 +5,6 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,15 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Internship
+ * @author Network Admin
  */
 @Entity
 @Table(name = "category")
@@ -41,8 +38,6 @@ public class Category implements Serializable {
     @Size(max = 255)
     @Column(name = "category_name")
     private String categoryName;
-    @OneToMany(mappedBy = "categoryId")
-    private Collection<Equipment> equipmentCollection;
 
     public Category() {
     }
@@ -65,15 +60,6 @@ public class Category implements Serializable {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
-    }
-
-    @XmlTransient
-    public Collection<Equipment> getEquipmentCollection() {
-        return equipmentCollection;
-    }
-
-    public void setEquipmentCollection(Collection<Equipment> equipmentCollection) {
-        this.equipmentCollection = equipmentCollection;
     }
 
     @Override
