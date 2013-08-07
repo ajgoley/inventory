@@ -10,7 +10,7 @@
     <h:body style="background-color: #DFE0E8">
         <div id="header" class="ui-widget ui-widget-header">
             <div id="logo">
-                <img src="itc_logo.png" alt="Logo" />
+                <img src="./img/itc_logo.png" alt="Logo" />
 <!-- Change -->
             </div>
         </div>
@@ -18,18 +18,50 @@
         <p/>
 
         <div align="center">
-            <a href="./equipment_page.xhtml" style="text-decoration: none">
-                <img src="leave.png" title="Equipment Module" />
-            </a>
-            <a href="./employee_manager.xhtml" style="text-decoration: none"> 
-                <img src="employee.png" title="Employee Module" />
+            <a href="./assetHolder.xhtml" style="text-decoration: none"> 
+                <img src="./img/employee.png" title="Employee Module" />
             </a>
             <a href="./index.xhtml" style="text-decoration: none"> 
-                <img src="back_to_home.png" title="Home" />
+                <img src="./img/back_to_home.png" title="Home" />
             </a>
         </div>
         
         
+        <p:dataTable id="employee_equipTable" var="equipment" value="#{assetHolderBean.selectedAssetHolder.equipmentCollection}" rowKey="#{equipment.serialNumber}" paginator="true" rows="15"
+                  filteredValue="#{assetHolderBean.filteredEquipment}" >
+
+                <f:facet name="header">
+                    <h:outputText value ="#{assetHolderBean.selectedAssetHolder.fullName}"></h:outputText>
+                </f:facet>
+
+                
+                <!--Field Column-->
+                <p:column headerText="Item">
+                    #{equipment.model}   
+                </p:column>  
+
+                <p:column headerText="Description">
+
+                   #{equipment.description}
+                       
+                </p:column>                
+
+                <p:column headerText="Condition">
+                    
+                    #{equipment.eqCondition}
+                   
+                </p:column>
+
+                <p:column headerText="ITC Tag #"  filterBy="#{equipment.itcTag}">
+                    #{equipment.barcode}
+                </p:column>  
+                
+                <p:column headerText="Bar Code"  filterBy="#{equipment.barcode}">
+                    #{equipment.barcode}
+                </p:column>     
+                    
+                </p:dataTable> 
+           
     </h:body>
 </html>
 
