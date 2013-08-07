@@ -38,7 +38,10 @@ public class AdminBean {
     EquipmentProcessingFacade equipmentProcessingFacade;
     // Object to hold the equipment item being created
     Equipment newEquipment;
+    // Object to hold the category to be added
+    Category newCategory;
     Boolean equipmentPanel = false;
+    Boolean categoryPanel = false;
     Boolean active;
     String condition;
     int categoryKey;
@@ -50,6 +53,14 @@ public class AdminBean {
     public AdminBean() {
     }
 
+    public Boolean getCategoryPanel() {
+        return categoryPanel;
+    }
+
+    public void setCategoryPanel(Boolean categoryPanel) {
+        this.categoryPanel = categoryPanel;
+    }
+
     public int getCategoryKey() {
         return categoryKey;
     }
@@ -57,7 +68,6 @@ public class AdminBean {
     public void setCategoryKey(int categoryKey) {
         this.categoryKey = categoryKey;
     }
-    
 
     public Equipment getNewEquipment() {
         return newEquipment;
@@ -65,6 +75,18 @@ public class AdminBean {
 
     public void setNewEquipment(Equipment newEquipment) {
         this.newEquipment = newEquipment;
+    }
+
+    public Category getNewCategory() {
+        return newCategory;
+    }
+
+    public void setNewCategory(Category newCategory) {
+        this.newCategory = newCategory;
+    }
+
+    public void initNewcategory() {
+        newCategory = new Category();
     }
 
     public Boolean getEquipmentPanel() {
@@ -82,6 +104,16 @@ public class AdminBean {
         } else {
             equipmentPanel = false;
             return equipmentPanel;
+        }
+    }
+
+    public boolean renderCategoryPanel() {
+        if (!categoryPanel) {
+            categoryPanel = true;
+            return categoryPanel;
+        } else {
+            categoryPanel = false;
+            return categoryPanel;
         }
     }
 
@@ -106,7 +138,7 @@ public class AdminBean {
     }
 
     public List<SelectItem> getAllCategories() {
-         List<SelectItem> retval = new ArrayList<>();
+        List<SelectItem> retval = new ArrayList<>();
 
         for (Category c : categoryFacade.findAll()) {
             retval.add(new SelectItem(c.getCategoryId(), c.getCategoryName()));
@@ -115,16 +147,23 @@ public class AdminBean {
         //Collections.sort(retval, byLabel);
         return retval;
     }
-    
-    public void saveNewEquipment(){
+
+    public void saveNewEquipment() {
         newEquipment.setActive(active);
         newEquipment.setEqCondition(condition);
         equipmentFacade.persist(newEquipment);
         newEquipment.setCategoryId(categoryFacade.find(categoryKey));
-        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage( 
-                                       "New Equipment Saved.", "complete"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                "New Equipment Saved.", "complete"));
         newEquipment = null;
         categoryKey = 0;
-        
+
+    }
+    
+    public void saveNewCategory() {
+        categoryFacade.persist(newCategory);
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                "New Category Saved.", "complete"));
+        newCategory = null;
     }
 }

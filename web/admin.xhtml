@@ -89,9 +89,24 @@
                     <p:commandButton immediate="true" ajax="false" value="Cancel" actionListener="#{adminBean.renderEquipmentPanel()}" icon="ui-icon-closethick" style="font-size: small;"/>
                 </f:facet>
             </p:panelGrid>
-            <p:accordionPanel activeIndex="1">
-                <p:tab title="Add New Category"></p:tab>
-            </p:accordionPanel>
+            <p:growl id="addCat" />
+            <p:commandButton ajax="false" value="CATEGORY" icon="ui-icon-plusthick" actionListener="#{adminBean.initNewcategory()}" 
+                             style="font-size: small;">
+                <f:setPropertyActionListener target="#{adminBean.categoryPanel}" value="#{adminBean.renderCategoryPanel()}"/>
+            </p:commandButton>
+            <p:panelGrid columns="2" rendered="#{adminBean.categoryPanel}">
+                <f:facet name="header" >Add New Category</f:facet>
+
+                <h:outputText value="name: " />
+                <h:inputText value="#{adminBean.newCategory.categoryName}" required="true" requiredMessage="Name is required."/>
+
+                <f:facet name="footer">
+                    <p:commandButton ajax="false" value="Save" actionListener="#{adminBean.saveNewCategory()}" icon="ui-icon-check" style="font-size: small;">
+                        <f:setPropertyActionListener target="#{adminBean.categoryPanel}" value="#{adminBean.renderCategoryPanel()}"/>
+                    </p:commandButton>
+                    <p:commandButton immediate="true" ajax="false" value="Cancel" actionListener="#{adminBean.renderCategoryPanel()}" icon="ui-icon-closethick" style="font-size: small;" />
+                </f:facet>
+            </p:panelGrid>
             <p:accordionPanel activeIndex="1">
                 <p:tab title="Add New Employee"></p:tab>
             </p:accordionPanel>

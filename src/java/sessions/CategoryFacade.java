@@ -29,4 +29,8 @@ public class CategoryFacade extends AbstractFacade<Category> {
         super(Category.class);
     }
     
+    public void persist(Category c){
+        em.persist(c);
+    }
+    
 }
