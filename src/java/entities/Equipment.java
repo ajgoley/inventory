@@ -9,6 +9,8 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -17,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Equipment.findAll", query = "SELECT e FROM Equipment e"),
+    @NamedQuery(name = "Equipment.findById", query = "SELECT e FROM Equipment e WHERE e.id = :id"),
     @NamedQuery(name = "Equipment.findBySerialNumber", query = "SELECT e FROM Equipment e WHERE e.serialNumber = :serialNumber"),
     @NamedQuery(name = "Equipment.findByDescription", query = "SELECT e FROM Equipment e WHERE e.description = :description"),
     @NamedQuery(name = "Equipment.findByModel", query = "SELECT e FROM Equipment e WHERE e.model = :model"),
@@ -42,8 +44,10 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Equipment implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
+    @Column(name = "id")
+    private Integer id;
     @Column(name = "serial_number")
     private Integer serialNumber;
     @Lob
@@ -70,20 +74,28 @@ public class Equipment implements Serializable {
     @Size(max = 255)
     @Column(name = "additional_notes")
     private String additionalNotes;
-    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
-    @ManyToOne
-    private Category categoryId;
     @JoinColumn(name = "asset_holder_id", referencedColumnName = "asset_holder_id")
     @ManyToOne
     private AssetHolder assetHolderId;
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    @ManyToOne
+    private Category categoryId;
     @OneToMany(mappedBy = "equipmentId")
     private Collection<EquipmentProcessing> equipmentProcessingCollection;
 
     public Equipment() {
     }
 
-    public Equipment(Integer serialNumber) {
-        this.serialNumber = serialNumber;
+    public Equipment(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getSerialNumber() {
@@ -158,20 +170,20 @@ public class Equipment implements Serializable {
         this.additionalNotes = additionalNotes;
     }
 
-    public Category getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Category categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public AssetHolder getAssetHolderId() {
         return assetHolderId;
     }
 
     public void setAssetHolderId(AssetHolder assetHolderId) {
         this.assetHolderId = assetHolderId;
+    }
+
+    public Category getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Category categoryId) {
+        this.categoryId = categoryId;
     }
 
     @XmlTransient
@@ -186,7 +198,7 @@ public class Equipment implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (serialNumber != null ? serialNumber.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -197,7 +209,7 @@ public class Equipment implements Serializable {
             return false;
         }
         Equipment other = (Equipment) object;
-        if ((this.serialNumber == null && other.serialNumber != null) || (this.serialNumber != null && !this.serialNumber.equals(other.serialNumber))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -205,7 +217,7 @@ public class Equipment implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Equipment[ serialNumber=" + serialNumber + " ]";
+        return "entities.Equipment[ id=" + id + " ]";
     }
     
 }

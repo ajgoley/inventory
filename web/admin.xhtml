@@ -1,14 +1,47 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Welcome to the Inventory Module</title>
+
+    </h:head>
+    <h:body style="background-color: #38587b">
+
+        <div id="header" class="ui-widget ui-widget-header" style="background: #575757!important; border-bottom-color: black!important; border-bottom-width: 5px;
+             border-left-color: #575757; border-right-color: #575757; border-top-color: #575757; height: 54px; ">
+            <div id="logo">
+                <img src="img/itc_logo.png" alt="Logo" />
+                <h:panelGroup layout="block" styleClass="top">
+                    <form>
+                        <div  style="top: 11px!important; left: 40%!important; position: absolute ">
+                            <a href="./faces/inventoryProcessing.xhtml" style="padding-right: 10px; text-decoration: none">
+                                <img src="img/inventory.png" title="Equipment Module" />
+                            </a>
+                            <a href="./faces/assetHolder.xhtml" style="padding-right: 10px;text-decoration: none"> 
+                                <img src="img/employee.png" title="Employee Module" />
+                            </a>
+                            <a href="./faces/index.xhtml" style="padding-right: 10px;text-decoration: none"> 
+                                <img src="img/back_to_home.png" title="Home" />
+                            </a>
+                            <a href="./faces/admin.xhtml" style="padding-right: 10px;text-decoration: none"> 
+                                <img src="img/admin.png" title="Admin" />
+                            </a>
+                        </div>
+                    </form>
+                </h:panelGroup>
+            </div>
+        </div>
+        <p:accordionPanel activeIndex="1">
+            <p:tab title="Add New Equipment"></p:tab>
+        </p:accordionPanel>
+        <p:accordionPanel activeIndex="1">
+            <p:tab title="Add New Category"></p:tab>
+        </p:accordionPanel>
+        <p:accordionPanel activeIndex="1">
+            <p:tab title="Add New Employee"></p:tab>
+        </p:accordionPanel>
+
+
+    </h:body>
 </html>
