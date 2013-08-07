@@ -6,11 +6,12 @@ package sessions;
 
 import entities.Equipment;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import org.jboss.logging.Logger;
+
 
 /**
  *
@@ -46,6 +47,28 @@ public class EquipmentFacade extends AbstractFacade<Equipment> {
       return query.getResultList();
 
   }
+    
+   public Equipment findEquipmentByITC(String tag) {
+      String queryString = "SELECT e FROM Equipment e WHERE e.itcTag = :itcTag";
+
+      TypedQuery<Equipment> query = em.createQuery(queryString, Equipment.class);
+      
+      query.setParameter("itcTag",tag);
+      
+      return query.getSingleResult();
+
+  }
+   
+    public Equipment findEquipmentByBarcode(String barcode) {
+        String queryString = "SELECT e FROM Equipment e WHERE e.barcode = :barcode";
+
+        TypedQuery<Equipment> query = em.createQuery(queryString, Equipment.class);
+
+        query.setParameter("barcode", barcode);
+
+        return query.getSingleResult();
+
+    }
     
     public void persist(Equipment e){
         em.persist(e);
