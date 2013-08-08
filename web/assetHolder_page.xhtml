@@ -33,42 +33,107 @@
             </div>
         </div>
 
+        <p:panel id="main"> 
+            <p:accordionPanel id="checkInPanel" activeIndex="1" multiple="true">
+                <p:tab title="Check-In Item">
 
-        <p:dataTable id="employee_equipTable" var="equipment" value="#{assetHolderBean.selectedAssetHolder.equipmentCollection}" rowKey="#{equipment.serialNumber}" paginator="true" rows="15"
-                     filteredValue="#{assetHolderBean.filteredEquipment}" >
+                    <h:form id="checkIn_form">
 
-            <f:facet name="header">
-                <h:outputText value ="#{assetHolderBean.selectedAssetHolder.fullName}"></h:outputText>
-            </f:facet>
+                        <p:growl id="msgs" showDetail="true" />  
+                        <h:panelGrid columns="2" cellpadding="10">
+
+                            <h:outputLabel style="font-weight: bold" value="ITC Tag Number: " />  
+                            <p:inputText id="itc_number_in" value="#{assetHolderBean.processingBean.currentITC}"/>
+
+                            <h:outputLabel style="font-weight: bold" value="Barcode #: " />  
+                            <p:inputText id="barcode_in" value="#{assetHolderBean.processingBean.currentBarcode}"/>  
 
 
-            <!--Field Column-->
-            <p:column headerText="Item">
+                            <p:commandButton value="Check-in" actionListener="#{assetHolderBean.display}" update=":checkInPanel:checkIn_form">
+
+                                <f:param name="currentEquipment_id" value="#{assetHolderBean.processingBean.currentEquipment.itcTag}" />
+
+                            </p:commandButton>
+
+
+                        </h:panelGrid>
+
+                        <p:dialog visible="#{assetHolderBean.processingBean.itemCheckedIn}" header="Item Detail" widgetVar="itemDialog" modal="true" 
+                                  showEffect="fade" hideEffect="explode" rendered="#{assetHolderBean.processingBean.itemCheckedIn}">  
+                            <p:panelGrid id="display" columns="2" style="margin:0 auto;" >  
+
+
+                                <h:outputText value="ITC Tag Number:" />  
+                                <h:outputText value="#{assetHolderBean.currentEquipment.itcTag}" style="font-weight:bold"/>  
+
+                                <h:outputText value="Description:" />  
+                                <h:outputText value="#{assetHolderBean.currentEquipment.description}" style="font-weight:bold"/> 
+
+                                <h:outputText value="Model:" />  
+                                <h:outputText value="#{assetHolderBean.currentEquipment.model}" style="font-weight:bold"/>  
+
+                                <h:outputText value="Condition:" />  
+                                <h:inputText value="#{assetHolderBean.currentEquipment.eqCondition}" style="font-weight:bold"/>  
+
+                                <h:outputText value="Location:" />  
+                                <p:inputText id="location_in" value="#{assetHolderBean.currentEquipment.locationArea}" />
+
+                                <h:outputText value="Checked In By:" />  
+
+
+
+                            </p:panelGrid> 
+                            <p:panel>
+                                <p:commandButton value="Confirm" actionListener="#{processingBean.checkInItem}" ajax="false" action="assetHolder"/> 
+                                <f:param name="asset_holder_id" value="#{assetHolderBean.selectedAssetHolder}" />
+                                
+                            </p:panel>
+                        </p:dialog>
+
+                    </h:form>
+                </p:tab>
+
+                
+                
+                
+            </p:accordionPanel>
+
+            <!--Employee Equipment Table-->
+            <p:dataTable id="employee_equipTable" var="equipment" value="#{assetHolderBean.selectedAssetHolder.equipmentCollection}" rowKey="#{equipment.serialNumber}" paginator="true" rows="15"
+                         filteredValue="#{assetHolderBean.filteredEquipment}" >
+
+                <f:facet name="header">
+                    <h:outputText value ="#{assetHolderBean.selectedAssetHolder.fullName}"></h:outputText>
+                </f:facet>
+
+
+                <!--Field Column-->
+                <p:column headerText="Item">
                 #{equipment.model}   
-            </p:column>  
+                </p:column>  
 
-            <p:column headerText="Description">
+                <p:column headerText="Description">
 
                 #{equipment.description}
 
-            </p:column>                
+                </p:column>                
 
-            <p:column headerText="Condition">
+                <p:column headerText="Condition">
 
                 #{equipment.eqCondition}
 
-            </p:column>
+                </p:column>
 
-            <p:column headerText="ITC Tag #"  filterBy="#{equipment.itcTag}">
+                <p:column headerText="ITC Tag #"  filterBy="#{equipment.itcTag}">
                 #{equipment.barcode}
-            </p:column>  
+                </p:column>  
 
-            <p:column headerText="Bar Code"  filterBy="#{equipment.barcode}">
+                <p:column headerText="Bar Code"  filterBy="#{equipment.barcode}">
                 #{equipment.barcode}
-            </p:column>     
+                </p:column>     
 
-        </p:dataTable> 
-
+            </p:dataTable> 
+        </p:panel>
     </h:body>
 </html>
 

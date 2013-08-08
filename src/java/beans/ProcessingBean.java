@@ -8,6 +8,7 @@ package beans;
 import entities.AssetHolder;
 import entities.Equipment;
 import entities.EquipmentProcessing;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -35,6 +36,10 @@ public class ProcessingBean {
     
     @EJB
     private EquipmentProcessingFacade processingFacade;
+    
+   @EJB
+   private AssetHolderFacade assetHolderFacade;
+    
 
      private static Logger log = java.util.logging.Logger.getLogger("ProcessingBean");
     
@@ -46,15 +51,18 @@ public class ProcessingBean {
     
     private String currentITC;
     private String currentBarcode;
-    private String checkedInBy;
+    private String currentSerialNum;
+    private String signedOffBy;
     
     private EquipmentProcessing timeStamp;
+    
+    private Date dateNow;
     
     public Equipment getCurrentEquipment() {
         return currentEquipment;
     }
 
-    public void setCurrentEquipmentIn(Equipment currentEquipment) {
+    public void setCurrentEquipment(Equipment currentEquipment) {
         this.currentEquipment = currentEquipment;
     }
 
@@ -74,6 +82,16 @@ public class ProcessingBean {
         this.itemCheckedIn = itemCheckedIn;
     }
 
+    public String getCurrentSerialNum() {
+        return currentSerialNum;
+    }
+
+    public void setCurrentSerialNum(String currentSerialNum) {
+        this.currentSerialNum = currentSerialNum;
+    }
+
+    
+    
     public String getCurrentITC() {
         return currentITC;
     }
@@ -92,58 +110,65 @@ public class ProcessingBean {
     
     public Equipment findEquipmentByITC(){
         
-        setCurrentEquipmentIn(equipmentFacade.findEquipmentByITC(currentITC));
+        setCurrentEquipment(equipmentFacade.findEquipmentByITC(currentITC));
         
         return currentEquipment;
     }
 
-    public String getCheckedInBy() {
-        return checkedInBy;
+    public String getSignedOffBy() {
+        return signedOffBy;
     }
 
-    public void setCheckedInBy(String checkedInBy) {
-        this.checkedInBy = checkedInBy;
+    public void setSignedOffBy(String signedOffBy) {
+        this.signedOffBy = signedOffBy;
     }
 
-   
-    
-    
-    public void display(){
-      
-      log.info("display being called");
-      findEquipmentByITC();  
-   
-      
-      if(currentEquipment == null){
-          
-            FacesMessage msg = new FacesMessage("Check-In Error", "ITC Tag Number: "+currentITC+" not found in inventory");
-
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-      }else{
-          setItemCheckedIn(true);
-          log.info(currentEquipment.getModel());
-          if(itemCheckedIn == true){
-              log.info("TRUE");
-              
-          }else
-              log.info("FALSE");
-          
-      }
-      
-      
-      //check if item is in inventory
+ 
+    public Date getDateNow() {
+        return dateNow;
     }
+
+    public void setDateNow(Date dateNow) {
+        this.dateNow = dateNow;
+    }
+
+    public EquipmentProcessing getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(EquipmentProcessing timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     
     public void checkInItem(){
         
+       //Updates any changed fields in equipment
+      
+       
+       if(currentEquipment.getAssetHolderId().getEquipmentCollection().remove(currentEquipment))
+           log.info("successful");
+       else
+           log.info("error");
+       
+       assetHolderFacade.edit(currentEquipment.getAssetHolderId());
+       assetHolderFacade.updateTable();
+       
+        currentEquipment.setAssetHolderId(null); //Deletes currentEquipment from currentAssetHolder
        equipmentFacade.edit(currentEquipment);
        equipmentFacade.updateTable();
+      
+     
        
-        
+       dateNow = new Date();
+       timeStamp = new EquipmentProcessing();
+    
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                "Done", "Check In Successful"));
+                "Check In Successful", dateNow.toString()));
          
          setItemCheckedIn(false);
+         
+         
     }
     
     

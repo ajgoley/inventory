@@ -61,10 +61,6 @@ public class EquipmentFacade extends AbstractFacade<Equipment> {
       }catch(NoResultException e){
           return null;
       }
-      
-      
-      
-   
 
   }
    
