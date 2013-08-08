@@ -32,37 +32,35 @@
                     </h:panelGroup>
                 </div>
             </div>
-            <!-- test commit-->
-            <p:commandButton ajax="false" value="Action Center" icon="ui-icon-wrench" action="inventoryProcessing" style="font-size: small"/>
-            <p:dataTable id="assetHolderTable" var="item" value="#{inventoryBean.theEquipemntList}" rowKey="#{item.description}" paginator="true" rows="10"
+            <p:dataTable id="assetHolderTable" var="item" value="#{inventoryBean.theEquipemntList}" rowKey="#{item.categoryId.categoryName}" paginator="true" rows="10"
                          filteredValue="#{assetHolderBean.filteredAssetHolders}" >
 
                 <f:facet name="header">
                     List of Equipment
                 </f:facet>
 
-                <p:column headerText="Description" filterBy="#{item.description}">
-                    #{item.description}                    
-                </p:column>
-
-                <p:column headerText="Active?" filterBy="#{item.active}">   
-                    #{item.active}
-                </p:column>
-
-                <p:column headerText="Current Handler"  filterBy="#{item.assetHolderId.fullName}">
-                    #{item.assetHolderId.fullName}      
-                </p:column>
-
-                <p:column headerText="Barcode"  filterBy="#{item.barcode}">
-                    #{item.barcode}      
-                </p:column>
-
                 <p:column headerText="Category"  filterBy="#{item.categoryId.categoryName}">
                     #{item.categoryId.categoryName}      
                 </p:column>
 
+                <p:column headerText="Model"  filterBy="#{item.model}">
+                    #{item.model}      
+                </p:column>
+
+                <p:column headerText="Checked Out By"  filterBy="#{item.assetHolderId.fullName}">
+                    #{item.assetHolderId.fullName}      
+                </p:column>
+
+                <p:column headerText="Usable?" filterBy="#{item.active}">   
+                    #{item.active}
+                </p:column>
+
                 <p:column headerText="Condition"  filterBy="#{item.eqCondition}">
                     #{item.eqCondition}      
+                </p:column>
+
+                <p:column headerText="Barcode"  filterBy="#{item.barcode}">
+                    #{item.barcode}      
                 </p:column>
 
                 <p:column headerText="ITC Tag"  filterBy="#{item.itcTag}">
@@ -73,12 +71,12 @@
                     #{item.locationArea}      
                 </p:column>
 
-                <p:column headerText="Model"  filterBy="#{item.model}">
-                    #{item.model}      
-                </p:column>
-
                 <p:column headerText="Serial Number"  filterBy="#{item.serialNumber}">
                     #{item.serialNumber}      
+                </p:column>
+
+                <p:column headerText="Description" filterBy="#{item.description}">
+                    #{item.description}                    
                 </p:column>
 
             </p:dataTable>
