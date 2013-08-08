@@ -46,10 +46,10 @@
                         <h:outputLabel style="font-weight: bold" value="Barcode #: " />  
                         <p:inputText id="barcode_in" value="#{processingBean.currentBarcode}"/>  
 
-                        <p:column style="width:4%">  
-                            <p:commandButton value="Check-in" title="View" actionListener="#{processingBean.display}" ajax="false"/> 
+                        
+                        <p:commandButton value="Check-in" actionListener="#{processingBean.display}" ajax="false"/> 
 
-                        </p:column> 
+                   
                     </h:panelGrid>
 
                     
@@ -69,17 +69,17 @@
                             <h:outputText value="#{processingBean.currentEquipment.model}" style="font-weight:bold"/>  
 
                             <h:outputText value="Condition:" />  
-                            <h:outputText value="#{processingBean.currentEquipment.eqCondition}" style="font-weight:bold"/>  
+                            <h:inputText value="#{processingBean.currentEquipment.eqCondition}" style="font-weight:bold"/>  
 
                             <h:outputText value="Location:" />  
                             <p:inputText id="location_in" value="#{processingBean.currentEquipment.locationArea}" />
                             
-                            <h:outputText value="Signed In By: "/>
-                            <p:inputText id="signed_in_by" value="#{processingBean.signedInBy}" />
+                            <h:outputText value="Checked In By:" />  
                             
-                
+                            
+                               
                         </p:panelGrid>  
-<!--                        <p:commandButton value="Confirm" actionListener=" " ajax="false"/> -->
+                            <p:commandButton value="Confirm" actionListener="#{processingBean.checkInItem}" ajax="false"/> 
                     </p:dialog>
 
                 </h:form>
