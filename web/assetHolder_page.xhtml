@@ -15,7 +15,7 @@
                 <h:panelGroup layout="block" styleClass="top">
                     <form>
                         <div  style="top: 11px!important; left: 40%!important; position: absolute ">
-                            <a href="./faces/inventoryProcessing.xhtml" style="padding-right: 10px; text-decoration: none">
+                            <a href="./faces/inventory.xhtml" style="padding-right: 10px; text-decoration: none">
                                 <img src="img/inventory.png" title="Equipment Module" />
                             </a>
                             <a href="./faces/assetHolder.xhtml" style="padding-right: 10px;text-decoration: none"> 
@@ -33,11 +33,14 @@
             </div>
         </div>
 
-        <p:commandButton value="Back" action="assetHolder"/>
+        <h:form>
+             <p:commandButton value="Back" ajax="false" action="assetHolder"/>
+        </h:form>
+       
         
         <p:panel id="main"> 
             
-            <p:accordionPanel id="checkInPanel" activeIndex="2" multiple="true">
+            <p:accordionPanel id="checkInOutPanel" activeIndex="2" multiple="true">
                 <p:tab title="Check-In Item">
 
                     <h:form id="checkIn_form">
@@ -52,7 +55,7 @@
                             <p:inputText id="barcode_in" value="#{assetHolderBean.processingBean.currentBarcode}"/>  
 
 
-                            <p:commandButton value="Check-in" actionListener="#{assetHolderBean.display}" update=":checkInPanel:checkIn_form">
+                            <p:commandButton value="Check-in" actionListener="#{assetHolderBean.displayCheckIn}" update=":checkInOutPanel:checkIn_form">
 
                                 <f:param name="currentEquipment_id" value="#{assetHolderBean.processingBean.currentEquipment.itcTag}" />
 
@@ -61,9 +64,9 @@
 
                         </h:panelGrid>
 
-                        <p:dialog visible="#{assetHolderBean.processingBean.itemCheckedIn}" header="Item Detail" widgetVar="itemDialog" modal="true" 
+                        <p:dialog  visible="#{assetHolderBean.processingBean.itemCheckedIn}" header="Item Detail" widgetVar="itemDialog" modal="true" 
                                   showEffect="fade" hideEffect="explode" rendered="#{assetHolderBean.processingBean.itemCheckedIn}">  
-                            <p:panelGrid id="display" columns="2" style="margin:0 auto;" >  
+                            <p:panelGrid id="displayIn" columns="2" style="margin:0 auto;" >  
 
 
                                 <h:outputText value="ITC Tag Number:" />  
@@ -83,8 +86,13 @@
 
                             </p:panelGrid> 
                             <p:panel>
-                                <p:commandButton value="Confirm" actionListener="#{processingBean.checkInItem}" ajax="false" action="assetHolder"/> 
-                                <f:param name="asset_holder_id" value="#{assetHolderBean.selectedAssetHolder}" />
+                                <p:commandButton value="Confirm" actionListener="#{processingBean.checkInItem}" ajax="false" update=":checkInOutPanel:checkIn_form" /> 
+                                     <f:param name="asset_holder_id" value="#{assetHolderBean.selectedAssetHolder}" />
+                                
+                                <p:commandButton value="Cancel" actionListener="#{processingBean.cancelInDisplay}" ajax="false" update=":checkInOutPanel:checkIn_form"/>
+                                  
+                             
+                                
                                 
                             </p:panel>
                         </p:dialog>
@@ -108,7 +116,9 @@
                             <p:inputText id="serial_out" value="#{assetHolderBean.processingBean.currentSerialNum}"/> 
                             
                             
-                            <p:commandButton value="Check-out" >
+                           
+                            
+                            <p:commandButton value="Check-Out" actionListener="#{assetHolderBean.displayCheckOut}" update=":checkInOutPanel:checkOut_form">
 
                                 <f:param name="currentEquipment_id" value="#{assetHolderBean.processingBean.currentEquipment.itcTag}" />
 
@@ -116,6 +126,41 @@
 
 
                         </h:panelGrid>
+                        
+                        <p:dialog  visible="#{assetHolderBean.processingBean.itemCheckedOut}" header="Item Detail" widgetVar="itemOutDialog" modal="true" 
+                                  showEffect="fade" hideEffect="explode" rendered="#{assetHolderBean.processingBean.itemCheckedOut}">  
+                            <p:panelGrid id="out_display" columns="2" style="margin:0 auto;" >  
+
+
+                                <h:outputText value="ITC Tag Number:" />  
+                                <h:outputText value="#{assetHolderBean.currentEquipment.itcTag}" style="font-weight:bold"/>  
+
+                                <h:outputText value="Description:" />  
+                                <h:outputText value="#{assetHolderBean.currentEquipment.description}" style="font-weight:bold"/> 
+
+                                <h:outputText value="Model:" />  
+                                <h:outputText value="#{assetHolderBean.currentEquipment.model}" style="font-weight:bold"/>  
+
+                                <h:outputText value="Condition:" />  
+                                <h:inputText value="#{assetHolderBean.currentEquipment.eqCondition}" style="font-weight:bold"/>  
+
+                                <h:outputText value="Location:" />  
+                                <p:inputText id="location_out" value="#{assetHolderBean.currentEquipment.locationArea}" />
+
+                            </p:panelGrid> 
+                            <p:panel>
+                                <p:commandButton value="Confirm" actionListener="#{processingBean.checkOutItem}" ajax="false" update=":checkInOutPanel:checkOut_form"/> 
+                                     <f:param name="asset_holder_id" value="#{assetHolderBean.selectedAssetHolder}" />
+                                
+                                <p:commandButton value="Cancel" actionListener="#{processingBean.cancelOutDisplay}" ajax="false" update=":checkInOutPanel:checkOut_form"/>
+                                  
+                             
+                                
+                                
+                            </p:panel>
+                        </p:dialog>
+                        
+                        
                     </h:form>
                     
                 </p:tab>

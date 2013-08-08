@@ -132,15 +132,15 @@ public class AssetHolderBean {
     
     @PostConstruct
     public void init(){
-          Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+         Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 	 assetHolder_id = params.get("asset_holder_id");  
          currentEquipment_id = params.get("currentEquipment_id");
-         
-         if(assetHolder_id == null){
-             log.info("assetHolder is null");
-         }else{
-             log.info(assetHolder_id);
-         }
+//         
+//         if(assetHolder_id == null){
+//             log.info("assetHolder is null");
+//         }else{
+//             log.info(assetHolder_id);
+//         }
          
          log.info("init called");
          if(!isNullOrEmpty(assetHolder_id)){
@@ -158,7 +158,9 @@ public class AssetHolderBean {
           }
     }
     
-     public void display(){
+  
+    
+     public void displayCheckIn(){
       
       log.info("display being called");
       processingBean.findEquipmentByITC();  
@@ -171,6 +173,32 @@ public class AssetHolderBean {
             FacesContext.getCurrentInstance().addMessage(null, msg);
       }else{
           processingBean.setItemCheckedIn(true);
+          log.info(currentEquipment.getModel());
+          if(processingBean.itemCheckedIn == true){
+              log.info("TRUE");
+//              FacesMessage msg = new FacesMessage("Hello "+processingBean.getCurrentITC()+" "+currentEquipment.getModel());
+          }else
+              log.info("FALSE");
+          
+      }
+      
+      
+      //check if item is in inventory
+    }
+     
+       public void displayCheckOut(){
+      
+      log.info("display being called");
+      processingBean.findEquipmentByITC();  
+      setCurrentEquipment(processingBean.getCurrentEquipment());
+      
+      if(currentEquipment == null){
+          
+            FacesMessage msg = new FacesMessage("Check-In Error", "ITC Tag Number: "+processingBean.getCurrentITC()+" not found in inventory");
+
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+      }else{
+          processingBean.setItemCheckedOut(true);
           log.info(currentEquipment.getModel());
           if(processingBean.itemCheckedIn == true){
               log.info("TRUE");

@@ -48,13 +48,14 @@ public class ProcessingBean {
     private AssetHolder currentAssetHolder;
 
     boolean itemCheckedIn = false;
+    boolean itemCheckedOut = false;
     
     private String currentITC;
     private String currentBarcode;
     private String currentSerialNum;
-    private String signedOffBy;
-    
-    private EquipmentProcessing timeStamp;
+//    private String signedOffBy;
+//    
+//    private EquipmentProcessing timeStamp;
     
     private Date dateNow;
     
@@ -82,6 +83,14 @@ public class ProcessingBean {
         this.itemCheckedIn = itemCheckedIn;
     }
 
+    public boolean isItemCheckedOut() {
+        return itemCheckedOut;
+    }
+
+    public void setItemCheckedOut(boolean itemCheckedOut) {
+        this.itemCheckedOut = itemCheckedOut;
+    }
+    
     public String getCurrentSerialNum() {
         return currentSerialNum;
     }
@@ -115,15 +124,15 @@ public class ProcessingBean {
         return currentEquipment;
     }
 
-    public String getSignedOffBy() {
-        return signedOffBy;
-    }
-
-    public void setSignedOffBy(String signedOffBy) {
-        this.signedOffBy = signedOffBy;
-    }
-
- 
+//    public String getSignedOffBy() {
+//        return signedOffBy;
+//    }
+//
+//    public void setSignedOffBy(String signedOffBy) {
+//        this.signedOffBy = signedOffBy;
+//    }
+//
+// 
     public Date getDateNow() {
         return dateNow;
     }
@@ -131,45 +140,101 @@ public class ProcessingBean {
     public void setDateNow(Date dateNow) {
         this.dateNow = dateNow;
     }
+//
+//    public EquipmentProcessing getTimeStamp() {
+//        return timeStamp;
+//    }
+//
+//    public void setTimeStamp(EquipmentProcessing timeStamp) {
+//        this.timeStamp = timeStamp;
+//    }
 
-    public EquipmentProcessing getTimeStamp() {
-        return timeStamp;
+    
+      public void cancelInDisplay(){
+        setItemCheckedIn(false);
     }
-
-    public void setTimeStamp(EquipmentProcessing timeStamp) {
-        this.timeStamp = timeStamp;
+      
+     public void cancelOutDisplay(){
+        setItemCheckedOut(false);
     }
-
+    
     
     public void checkInItem(){
         
        //Updates any changed fields in equipment
       
-       
-       if(currentEquipment.getAssetHolderId().getEquipmentCollection().remove(currentEquipment))
+       if(currentEquipment == null || currentEquipment.getAssetHolderId()==null){
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                "Check-In Fail", "Item not registered to this employee"));
+             
+         setItemCheckedIn(false);
+    
+       }else{
+             if(currentEquipment.getAssetHolderId().getEquipmentCollection().remove(currentEquipment))
            log.info("successful");
        else
-           log.info("error");
-       
-       assetHolderFacade.edit(currentEquipment.getAssetHolderId());
-       assetHolderFacade.updateTable();
-       
-        currentEquipment.setAssetHolderId(null); //Deletes currentEquipment from currentAssetHolder
-       equipmentFacade.edit(currentEquipment);
-       equipmentFacade.updateTable();
-      
-     
-       
+               log.info("error");
+
+           assetHolderFacade.edit(currentEquipment.getAssetHolderId());
+           assetHolderFacade.updateTable();
+
+           currentEquipment.setAssetHolderId(null); //Deletes currentEquipment from currentAssetHolder
+           equipmentFacade.edit(currentEquipment);
+           equipmentFacade.updateTable();
+
+
+//       
        dateNow = new Date();
-       timeStamp = new EquipmentProcessing();
-    
-         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                "Check In Successful", dateNow.toString()));
-         
-         setItemCheckedIn(false);
-         
-         
+//       timeStamp = new EquipmentProcessing();
+
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                   "Check In Successful", dateNow.toString()));
+
+           setItemCheckedIn(false);
+          
+       }      
     }
+    
+    public void checkOutItem(){
+        if(currentEquipment == null || currentEquipment.getAssetHolderId()==null){
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                "Check-Out Fail", "Item not registered to this employee"));
+             
+         setItemCheckedOut(false);
+    
+       }else{
+            
+            currentAssetHolder = currentEquipment.getAssetHolderId();
+              
+           
+            
+             if(currentAssetHolder.getEquipmentCollection().add(currentEquipment))
+           log.info("successful");
+       else
+               log.info("error");
+
+           assetHolderFacade.edit(currentEquipment.getAssetHolderId());
+           assetHolderFacade.updateTable();
+
+          //Deletes currentEquipment from currentAssetHolder
+           currentEquipment.setAssetHolderId(currentAssetHolder);
+           equipmentFacade.edit(currentEquipment);
+           equipmentFacade.updateTable();
+
+
+//       
+       dateNow = new Date();
+//       timeStamp = new EquipmentProcessing();
+
+           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                   "Check In Successful", dateNow.toString()));
+
+           setItemCheckedOut(false);
+          
+       }      
+    }
+    
+    
     
     
     
