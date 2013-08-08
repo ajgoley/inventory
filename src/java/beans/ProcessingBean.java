@@ -39,6 +39,7 @@ public class ProcessingBean {
     
     private String currentITC;
     private String currentBarcode;
+    private String signedInBy;
     
     public Equipment getCurrentEquipment() {
         return currentEquipment;
@@ -86,12 +87,21 @@ public class ProcessingBean {
         
         return currentEquipment;
     }
+
+    public String getSignedInBy() {
+        return signedInBy;
+    }
+
+    public void setSignedInBy(String signedInBy) {
+        this.signedInBy = signedInBy;
+    }
+    
     
     
     public void display(){
       
       log.info("display being called");
-      currentEquipment = findEquipmentByITC();  
+      findEquipmentByITC();  
    
       
       if(currentEquipment == null){
@@ -111,11 +121,11 @@ public class ProcessingBean {
       }
       
       
-      
       //check if item is in inventory
-      
-      
-      
+    }
+    
+    public void checkIn(){
+        
     }
     
     
