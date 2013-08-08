@@ -38,6 +38,14 @@
                              style="font-size: small;">
                 <f:setPropertyActionListener target="#{adminBean.equipmentPanel}" value="#{adminBean.renderEquipmentPanel()}"/>
             </p:commandButton>
+            <p:commandButton ajax="false" value="CATEGORY" icon="ui-icon-plusthick" actionListener="#{adminBean.initNewcategory()}" 
+                             style="font-size: small;">
+                <f:setPropertyActionListener target="#{adminBean.categoryPanel}" value="#{adminBean.renderCategoryPanel()}"/>
+            </p:commandButton>
+            <p:commandButton ajax="false" value="EMPLOYEE" icon="ui-icon-plusthick" actionListener="#{adminBean.initNewAssetHolder()}" 
+                             style="font-size: small;">
+                <f:setPropertyActionListener target="#{adminBean.assetHolderPanel}" value="#{adminBean.renderAssetHolderPanel()}"/>
+            </p:commandButton>
             <p:panelGrid columns="4" rendered="#{adminBean.equipmentPanel}">
                 <f:facet name="header" >Add New Equipment</f:facet>
                 <h:outputText value="serial number: " />
@@ -90,10 +98,7 @@
                 </f:facet>
             </p:panelGrid>
 
-            <p:commandButton ajax="false" value="CATEGORY" icon="ui-icon-plusthick" actionListener="#{adminBean.initNewcategory()}" 
-                             style="font-size: small;">
-                <f:setPropertyActionListener target="#{adminBean.categoryPanel}" value="#{adminBean.renderCategoryPanel()}"/>
-            </p:commandButton>
+
             <p:panelGrid columns="2" rendered="#{adminBean.categoryPanel}">
                 <f:facet name="header" >Add New Category</f:facet>
 
@@ -108,25 +113,22 @@
                 </f:facet>
             </p:panelGrid>
 
-            <p:commandButton ajax="false" value="EMPLOYEE" icon="ui-icon-plusthick" actionListener="#{adminBean.initNewAssetHolder()}" 
-                             style="font-size: small;">
-                <f:setPropertyActionListener target="#{adminBean.assetHolderPanel}" value="#{adminBean.renderAssetHolderPanel()}"/>
-            </p:commandButton>
+
             <p:panelGrid columns="2" rendered="#{adminBean.assetHolderPanel}">
                 <f:facet name="header" >Add New Employee</f:facet>
 
                 <h:outputText value="first name: " />
                 <h:inputText value="#{adminBean.newAssetHolder.firstName}" required="true" requiredMessage="Name is required."/>
-                
+
                 <h:outputText value="last name: " />
                 <h:inputText value="#{adminBean.newAssetHolder.lastName}" required="true" requiredMessage="Name is required."/>
-                
+
                 <h:outputText value="company: " />
                 <h:inputText value="#{adminBean.newAssetHolder.company}" required="true" requiredMessage="Name is required."/>
-                
+
                 <h:outputText value="email: " />
                 <h:inputText value="#{adminBean.newAssetHolder.email}" required="true" requiredMessage="Name is required."/>
-                
+
                 <h:outputText value="ssn: " />
                 <h:inputSecret value="#{adminBean.newAssetHolder.ssn}" required="true" requiredMessage="Name is required."/>
 
