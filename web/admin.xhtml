@@ -44,30 +44,32 @@
             </p:commandButton>
             <p:panelGrid columns="2" rendered="#{adminBean.equipmentPanel}">
                 <f:facet name="header" >Add New Equipment</f:facet>
-                
+
                 <h:outputText value="Category: " />
                 <p:commandButton immediate="true" ajax="false" actionListener="#{adminBean.initNewcategory()}" value="New" icon="ui-icon-disk" style="font-size: small" >
                     <p:selectOneMenu style="top: 10px" value="#{adminBean.categoryKey}"  >  
                         <f:selectItem itemLabel="Select one or create new" itemValue="0" /> 
                         <f:selectItems value="#{adminBean.allCategories}" />
-                         
+
                     </p:selectOneMenu>
                     <f:setPropertyActionListener value="#{adminBean.renderCategoryPanel()}" target="#{adminBean.categoryPanel}" />
                     <h:inputText label="New Category Name" title="New category name" value="#{adminBean.newCategory.categoryName}" rendered="#{adminBean.categoryPanel}" />
-                    
+
                 </p:commandButton>
-                
+
                 <h:outputText value="Serial number: " />
                 <h:inputText value="#{adminBean.newEquipment.serialNumber}" />
 
                 <h:outputText value="Usable? " />
                 <p:selectBooleanCheckbox value="#{adminBean.newEquipment.active}" /> 
 
+                <h:outputText value="Model: " />
+                <h:inputText value="#{adminBean.newEquipment.model}" />
+
                 <h:outputText value="Description: " />
                 <h:inputText value="#{adminBean.newEquipment.description}" />
 
-                <h:outputText value="Model: " />
-                <h:inputText value="#{adminBean.newEquipment.model}" />
+
 
                 <h:outputText value="Condition: " />
                 <p:selectOneMenu value="#{adminBean.condition}">  
@@ -86,8 +88,8 @@
                 <h:outputText value="Location: " />
                 <h:inputText value="#{adminBean.newEquipment.locationArea}" />
 
-                
-                
+
+
 
                 <f:facet name="footer" >
                     <p:commandButton ajax="false" actionListener="#{adminBean.saveNewEquipment()}" update=":addEquip, @form" value="Save" icon="ui-icon-check" style="font-size: small;">
@@ -98,7 +100,7 @@
             </p:panelGrid>
 
 
-            
+
 
 
             <p:panelGrid columns="2" rendered="#{adminBean.assetHolderPanel}">
