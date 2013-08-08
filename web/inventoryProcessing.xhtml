@@ -47,7 +47,7 @@
 
                     
               
-                    <p:dialog visible="#{processingBean.itemCheckedIn}" header="Car Detail" widgetVar="carDialog" modal="true" 
+                    <p:dialog visible="#{processingBean.itemCheckedIn}" header="Item Detail" widgetVar="itemDialog" modal="true" 
                                showEffect="fade" hideEffect="explode" rendered="#{processingBean.itemCheckedIn}">  
                         <p:panelGrid id="display" columns="2" style="margin:0 auto;" >  
                                  
@@ -67,11 +67,14 @@
                             <h:outputText value="Location:" />  
                             <p:inputText id="location_in" value="#{processingBean.currentEquipment.locationArea}" />
                             
+                            <h:outputText value="Signed In By: "/>
+                            <p:inputText id="signed_in_by" value="#{processingBean.signedInBy}" />
+                            
                 
                         </p:panelGrid>  
-     <p:commandButton value="Confirm" /> 
-            </p:dialog>
-                    
+<!--                        <p:commandButton value="Confirm" actionListener=" " ajax="false"/> -->
+                    </p:dialog>
+
                 </h:form>
            </p:tab>
            
