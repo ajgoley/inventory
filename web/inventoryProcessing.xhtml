@@ -29,13 +29,14 @@
             <p:tab title="Check-In Item">
 
                 <h:form id="checkIn_form">
-
+                    
+                    <p:growl id="msgs" showDetail="true" />  
                     <h:panelGrid columns="2" cellpadding="10">
 
-                        <h:outputLabel for="ITC Tag Number" style="font-weight: bold" value="ITC Tag Number: " />  
+                        <h:outputLabel style="font-weight: bold" value="ITC Tag Number: " />  
                         <p:inputText id="itc_number_in" value="#{processingBean.currentITC}"/>
 
-                        <h:outputLabel for="Barcode" style="font-weight: bold" value="Barcode #: " />  
+                        <h:outputLabel style="font-weight: bold" value="Barcode #: " />  
                         <p:inputText id="barcode_in" value="#{processingBean.currentBarcode}"/>  
 
                         <p:column style="width:4%">  
@@ -45,11 +46,12 @@
                     </h:panelGrid>
 
                     
-                    <p:dialog header="Item Details" widgetVar="itemDialog"   
-                              showEffect="fade" hideEffect="explode" rendered="#{processingBean.itemCheckedIn}" >  
-
-                        <h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto;">  
-
+              
+                    <p:dialog visible="#{processingBean.itemCheckedIn}" header="Car Detail" widgetVar="carDialog" modal="true" 
+                               showEffect="fade" hideEffect="explode" rendered="#{processingBean.itemCheckedIn}">  
+                        <p:panelGrid id="display" columns="2" style="margin:0 auto;" >  
+                                 
+                             
                             <h:outputText value="ITC Tag Number:" />  
                             <h:outputText value="#{processingBean.currentEquipment.itcTag}" style="font-weight:bold"/>  
 
@@ -64,30 +66,14 @@
 
                             <h:outputText value="Location:" />  
                             <p:inputText id="location_in" value="#{processingBean.currentEquipment.locationArea}" />
-
-                        </h:panelGrid>  
-
-                    </p:dialog>  
+                            
+                
+                        </p:panelGrid>  
+     <p:commandButton value="Confirm" /> 
+            </p:dialog>
                     
                 </h:form>
            </p:tab>
-            <p:tab title="Check-Out" >
-                <h:form>
-                <h:panelGrid columns="2" cellpadding="10">
-                    <h:outputLabel for="employee" style="font-weight: bold" value="Employee ID : " />  
-                    <p:inputText id="itc_number" value="#{processingBean.currentAssetHolder.assetHolderId}" required="true" />
-                    
-                    <h:outputLabel for="ITC Tag Number" style="font-weight: bold" value="ITC Tag Number: " />  
-                    <p:inputText id="itc_number_out" value="#{processingBean.currentEquipment.itcTag}" required="true" />
-
-                    <h:outputLabel for="Barcode" style="font-weight: bold" value="Barcode #: " />  
-                    <p:inputText id="barcode_out" value="#{processingBean.currentEquipment.barcode}" required="true" /> 
-                    
-                    
-                </h:panelGrid>
-                    
-                   </h:form> 
-            </p:tab>
            
         </p:accordionPanel>
 

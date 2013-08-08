@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
@@ -55,7 +56,15 @@ public class EquipmentFacade extends AbstractFacade<Equipment> {
       
       query.setParameter("itcTag",tag);
       
-      return query.getSingleResult();
+      try{
+          return query.getSingleResult();
+      }catch(NoResultException e){
+          return null;
+      }
+      
+      
+      
+   
 
   }
    

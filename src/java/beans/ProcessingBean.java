@@ -92,11 +92,11 @@ public class ProcessingBean {
       
       log.info("display being called");
       currentEquipment = findEquipmentByITC();  
-      log.info(currentEquipment.getItcTag());
+   
       
       if(currentEquipment == null){
           
-           FacesMessage msg = new FacesMessage("Check-In Error", "ITC Tag Number: "+currentITC+" not found in inventory");
+            FacesMessage msg = new FacesMessage("Check-In Error", "ITC Tag Number: "+currentITC+" not found in inventory");
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
       }else{
