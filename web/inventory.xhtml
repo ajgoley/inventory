@@ -32,43 +32,58 @@
                 </h:panelGroup>
             </div>
         </div>
-
-
-        <h:form id="asset_holder_display">
-            <p:dataTable id="assetHolderTable" var="assetHolder" value="#{assetHolderBean.assetHolderDisplayTable}" rowKey="#{assetHolder.lastName}" paginator="true" rows="10"
+        <h:form id="equipment_display">
+            <p:commandButton ajax="false" value="Action Center" icon="ui-icon-wrench" action="inventoryProcessing" style="font-size: small"/>
+            <p:dataTable id="assetHolderTable" var="item" value="#{inventoryBean.theEquipemntList}" rowKey="#{item.description}" paginator="true" rows="10"
                          filteredValue="#{assetHolderBean.filteredAssetHolders}" >
 
-                <!--                <p:ajax event="rowSelect" update=":form:display" oncomplete="PF('carDialog').show()" />-->
-
                 <f:facet name="header">
-                    List of Employees
+                    List of Equipment
                 </f:facet>
 
-                <p:column headerText="Name" filterBy="#{assetHolder.lastName}">
-                    #{assetHolder.fullName}                    
+                <p:column headerText="Description" filterBy="#{item.description}">
+                    #{item.description}                    
                 </p:column>
 
-                <p:column headerText="Company" filterBy="#{assetHolder.company}">   
-                    #{assetHolder.company}
+                <p:column headerText="Active?" filterBy="#{item.active}">   
+                    #{item.active}
                 </p:column>
 
-                <p:column headerText="Email"  filterBy="#{assetHolder.email}">
-                    #{assetHolder.email}      
+                <p:column headerText="Current Handler"  filterBy="#{item.assetHolderId.fullName}">
+                    #{item.assetHolderId.fullName}      
                 </p:column>
 
-                <p:column headerText="SSN"  filterBy="#{assetHolder.ssn}">
-                    #{assetHolder.ssn}      
+                <p:column headerText="Barcode"  filterBy="#{item.barcode}">
+                    #{item.barcode}      
                 </p:column>
 
-                <p:column headerText ="View Items">
-                    <p:commandButton ajax ="false" action="assetHolder_page" icon="ui-icon-tag" title="Icon Only" >
-                        <f:param name="asset_holder_id" value="#{assetHolder.ssn}" />
-                    </p:commandButton>       
+                <p:column headerText="Category"  filterBy="#{item.categoryId.categoryName}">
+                    #{item.categoryId.categoryName}      
+                </p:column>
+                
+                <p:column headerText="Condition"  filterBy="#{item.eqCondition}">
+                    #{item.eqCondition}      
+                </p:column>
+                
+                <p:column headerText="ITC Tag"  filterBy="#{item.itcTag}">
+                    #{item.itcTag}      
+                </p:column>
+                
+                <p:column headerText="Location"  filterBy="#{item.locationArea}">
+                    #{item.locationArea}      
+                </p:column>
+                
+                <p:column headerText="Model"  filterBy="#{item.model}">
+                    #{item.model}      
+                </p:column>
+                
+                <p:column headerText="Serial Number"  filterBy="#{item.serialNumber}">
+                    #{item.serialNumber}      
                 </p:column>
 
             </p:dataTable>
 
         </h:form>
 
-    </h:body>   
+    </h:body>
 </html>
