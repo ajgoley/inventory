@@ -33,8 +33,11 @@
             </div>
         </div>
 
+        <p:commandButton value="Back" action="assetHolder"/>
+        
         <p:panel id="main"> 
-            <p:accordionPanel id="checkInPanel" activeIndex="1" multiple="true">
+            
+            <p:accordionPanel id="checkInPanel" activeIndex="2" multiple="true">
                 <p:tab title="Check-In Item">
 
                     <h:form id="checkIn_form">
@@ -78,10 +81,6 @@
                                 <h:outputText value="Location:" />  
                                 <p:inputText id="location_in" value="#{assetHolderBean.currentEquipment.locationArea}" />
 
-                                <h:outputText value="Checked In By:" />  
-
-
-
                             </p:panelGrid> 
                             <p:panel>
                                 <p:commandButton value="Confirm" actionListener="#{processingBean.checkInItem}" ajax="false" action="assetHolder"/> 
@@ -93,7 +92,33 @@
                     </h:form>
                 </p:tab>
 
-                
+                <p:tab title="Check-Out Item">
+                    
+                    <h:form id="checkOut_form">
+                        <p:growl id="out_msg" showDetail="true" />      
+
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <h:outputLabel style="font-weight: bold" value="ITC Tag Number: " />  
+                            <p:inputText id="itc_number_out" value="#{assetHolderBean.processingBean.currentITC}"/>
+
+                            <h:outputLabel style="font-weight: bold" value="Barcode #: " />  
+                            <p:inputText id="barcode_out" value="#{assetHolderBean.processingBean.currentBarcode}"/> 
+                            
+                            <h:outputLabel style="font-weight: bold" value="SerialNumber #: " />  
+                            <p:inputText id="serial_out" value="#{assetHolderBean.processingBean.currentSerialNum}"/> 
+                            
+                            
+                            <p:commandButton value="Check-out" >
+
+                                <f:param name="currentEquipment_id" value="#{assetHolderBean.processingBean.currentEquipment.itcTag}" />
+
+                            </p:commandButton>
+
+
+                        </h:panelGrid>
+                    </h:form>
+                    
+                </p:tab>
                 
                 
             </p:accordionPanel>

@@ -111,22 +111,6 @@ public class AssetHolderBean {
         
     }
 
- 
-    
-    
-
-//    public List<Equipment> getAssetHolderEquipment() {
-//        log.info("asset holder equipment called");
-//         if(assetHolderEquipment == null){ 
-//              assetHolderEquipment = equipmentFacade.findAssetHolderEquipment(selectedAssetHolder.getAssetHolderId());
-//          }
-//        
-//        return assetHolderEquipment;
-//    }
-//
-//    public void setAssetHolderEquipments(List<Equipment> assetHolderEquipments) {
-//        this.assetHolderEquipment = assetHolderEquipments;
-//    }
 
     public String getAssetHolder_id() {
         return assetHolder_id;
