@@ -122,6 +122,11 @@ public class AdminBean {
     }
 
     public boolean renderEquipmentPanel() {
+        if(assetHolderPanel){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                "Can only add one object at a time", null));
+            return false;
+        }
         if (!equipmentPanel) {
             equipmentPanel = true;
             return equipmentPanel;
@@ -142,6 +147,11 @@ public class AdminBean {
     }
     
     public boolean renderAssetHolderPanel() {
+        if(equipmentPanel){
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                "Can only add one object at a time", null));
+            return false;
+        }
         if (!assetHolderPanel) {
             assetHolderPanel = true;
             return assetHolderPanel;
@@ -177,25 +187,42 @@ public class AdminBean {
         for (Category c : categoryFacade.findAll()) {
             retval.add(new SelectItem(c.getCategoryId(), c.getCategoryName()));
         }
-
+  
         //Collections.sort(retval, byLabel);
         return retval;
     }
 
     public void saveNewEquipment() {
-        newEquipment.setActive(active);
+        if(newCategory == null && categoryKey == 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                "Category field is required", null));
+            return;
+        }
+        if(newCategory != null && newCategory.getCategoryName().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                "Must name new category", null));
+            return;
+        }
+        if(newCategory != null && newCategory.getCategoryName() != null) {
+            categoryFacade.persist(newCategory);
+            newEquipment.setCategoryId(categoryFacade.findByName(newCategory.getCategoryName()));
+        } else {
+            newEquipment.setCategoryId(categoryFacade.find(categoryKey));
+        }
+ 
         newEquipment.setEqCondition(condition);
         equipmentFacade.persist(newEquipment);
-        newEquipment.setCategoryId(categoryFacade.find(categoryKey));
+        
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
                 "New Equipment Saved.", "complete"));
         newEquipment = null;
         categoryKey = 0;
+        newCategory = null;
 
     }
     
     public void saveNewCategory() {
-        categoryFacade.persist(newCategory);
+        
          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
                 "New Category Saved.", "complete"));
         newCategory = null;

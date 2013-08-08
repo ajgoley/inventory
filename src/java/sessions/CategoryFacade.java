@@ -5,6 +5,7 @@
 package sessions;
 
 import entities.Category;
+import entities.Equipment;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,6 +18,7 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 public class CategoryFacade extends AbstractFacade<Category> {
+
     @PersistenceContext(unitName = "Inventory2PU")
     private EntityManager em;
 
@@ -28,9 +30,22 @@ public class CategoryFacade extends AbstractFacade<Category> {
     public CategoryFacade() {
         super(Category.class);
     }
-    
-    public void persist(Category c){
+
+    public Category findByName(String n) {
+        StringBuilder queryString = new StringBuilder();
+
+        queryString.append("SELECT c from Category c ");
+        queryString.append("WHERE c.categoryName = ");
+        queryString.append("'");
+        queryString.append(n);
+        queryString.append("'");
+
+        TypedQuery<Category> query = em.createQuery(queryString.toString(), Category.class);
+
+        return query.getSingleResult();
+    }
+
+    public void persist(Category c) {
         em.persist(c);
     }
-    
 }

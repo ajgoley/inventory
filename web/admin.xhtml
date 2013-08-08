@@ -38,33 +38,38 @@
                              style="font-size: small;">
                 <f:setPropertyActionListener target="#{adminBean.equipmentPanel}" value="#{adminBean.renderEquipmentPanel()}"/>
             </p:commandButton>
-            <p:commandButton ajax="false" value="CATEGORY" icon="ui-icon-plusthick" actionListener="#{adminBean.initNewcategory()}" 
-                             style="font-size: small;">
-                <f:setPropertyActionListener target="#{adminBean.categoryPanel}" value="#{adminBean.renderCategoryPanel()}"/>
-            </p:commandButton>
             <p:commandButton ajax="false" value="EMPLOYEE" icon="ui-icon-plusthick" actionListener="#{adminBean.initNewAssetHolder()}" 
                              style="font-size: small;">
                 <f:setPropertyActionListener target="#{adminBean.assetHolderPanel}" value="#{adminBean.renderAssetHolderPanel()}"/>
             </p:commandButton>
-            <p:panelGrid columns="4" rendered="#{adminBean.equipmentPanel}">
+            <p:panelGrid columns="2" rendered="#{adminBean.equipmentPanel}">
                 <f:facet name="header" >Add New Equipment</f:facet>
-                <h:outputText value="serial number: " />
+                
+                <h:outputText value="Category: " />
+                <p:commandButton immediate="true" ajax="false" actionListener="#{adminBean.initNewcategory()}" value="New" icon="ui-icon-disk" style="font-size: small" >
+                    <p:selectOneMenu style="top: 10px" value="#{adminBean.categoryKey}"  >  
+                        <f:selectItem itemLabel="Select one or create new" itemValue="0" /> 
+                        <f:selectItems value="#{adminBean.allCategories}" />
+                         
+                    </p:selectOneMenu>
+                    <f:setPropertyActionListener value="#{adminBean.renderCategoryPanel()}" target="#{adminBean.categoryPanel}" />
+                    <h:inputText label="New Category Name" title="New category name" value="#{adminBean.newCategory.categoryName}" rendered="#{adminBean.categoryPanel}" />
+                    
+                </p:commandButton>
+                
+                <h:outputText value="Serial number: " />
                 <h:inputText value="#{adminBean.newEquipment.serialNumber}" />
 
-                <h:outputText value="active? " />
-                <p:selectOneMenu value="#{adminBean.active}">  
-                    <f:selectItem itemLabel="Select One" itemValue="" />  
-                    <f:selectItem itemLabel="TRUE" itemValue="#{true}" />  
-                    <f:selectItem itemLabel="FALSE" itemValue="#{false}" /> 
-                </p:selectOneMenu>  
+                <h:outputText value="Usable? " />
+                <p:selectBooleanCheckbox value="#{adminBean.newEquipment.active}" /> 
 
-                <h:outputText value="description: " />
+                <h:outputText value="Description: " />
                 <h:inputText value="#{adminBean.newEquipment.description}" />
 
-                <h:outputText value="model: " />
+                <h:outputText value="Model: " />
                 <h:inputText value="#{adminBean.newEquipment.model}" />
 
-                <h:outputText value="condition: " />
+                <h:outputText value="Condition: " />
                 <p:selectOneMenu value="#{adminBean.condition}">  
                     <f:selectItem itemLabel="Select One" itemValue="" />  
                     <f:selectItem itemLabel="NEW" itemValue="new" />  
@@ -72,23 +77,17 @@
                     <f:selectItem itemLabel="DAMAGED" itemValue="damaged" /> 
                 </p:selectOneMenu>  
 
-                <h:outputText value="barcode: " />
+                <h:outputText value="Barcode: " />
                 <h:inputText value="#{adminBean.newEquipment.barcode}" />
 
                 <h:outputText value="ITC tag: " />
                 <h:inputText value="#{adminBean.newEquipment.itcTag}" />
 
-                <h:outputText value="location: " />
+                <h:outputText value="Location: " />
                 <h:inputText value="#{adminBean.newEquipment.locationArea}" />
 
-                <h:outputText value="notes: " />
-                <h:inputText value="#{adminBean.newEquipment.additionalNotes}" />
-
-                <h:outputText value="category: " />
-                <p:selectOneMenu value="#{adminBean.categoryKey}" required="true" requiredMessage="category is required.">  
-                    <f:selectItem itemLabel="Select One" itemValue="#{null}" />  
-                    <f:selectItems value="#{adminBean.allCategories}" />
-                </p:selectOneMenu>  
+                
+                
 
                 <f:facet name="footer" >
                     <p:commandButton ajax="false" actionListener="#{adminBean.saveNewEquipment()}" update=":addEquip, @form" value="Save" icon="ui-icon-check" style="font-size: small;">
@@ -99,19 +98,7 @@
             </p:panelGrid>
 
 
-            <p:panelGrid columns="2" rendered="#{adminBean.categoryPanel}">
-                <f:facet name="header" >Add New Category</f:facet>
-
-                <h:outputText value="name: " />
-                <h:inputText value="#{adminBean.newCategory.categoryName}" required="true" requiredMessage="Name is required."/>
-
-                <f:facet name="footer">
-                    <p:commandButton ajax="false" value="Save" actionListener="#{adminBean.saveNewCategory()}" icon="ui-icon-check" style="font-size: small;">
-                        <f:setPropertyActionListener target="#{adminBean.categoryPanel}" value="#{adminBean.renderCategoryPanel()}"/>
-                    </p:commandButton>
-                    <p:commandButton immediate="true" ajax="false" value="Cancel" actionListener="#{adminBean.renderCategoryPanel()}" icon="ui-icon-closethick" style="font-size: small;" />
-                </f:facet>
-            </p:panelGrid>
+            
 
 
             <p:panelGrid columns="2" rendered="#{adminBean.assetHolderPanel}">
@@ -139,7 +126,7 @@
                     <p:commandButton immediate="true" ajax="false" value="Cancel" actionListener="#{adminBean.renderAssetHolderPanel()}" icon="ui-icon-closethick" style="font-size: small;" />
                 </f:facet>
             </p:panelGrid>
-            
+
         </h:form>
 
     </h:body>
