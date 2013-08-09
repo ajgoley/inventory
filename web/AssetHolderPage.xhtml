@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Welcome to the Inventory Module</title>
+
+    </h:head>
+    <h:body style="background-color: #38587b">
+
+        <div id="header" class="ui-widget ui-widget-header" style="background: #575757!important; border-bottom-color: black!important; border-bottom-width: 5px;
+             border-left-color: #575757; border-right-color: #575757; border-top-color: #575757; height: 54px; ">
+            <div id="logo">
+                <img src="img/itc_logo.png" alt="Logo" />
+                <h:panelGroup layout="block" styleClass="top">
+                    <form>
+                        <div  style="top: 11px!important; left: 40%!important; position: absolute ">
+                            <a href="./faces/inventory.xhtml" style="padding-right: 10px; text-decoration: none">
+                                <img src="img/inventory.png" title="Equipment Module" />
+                            </a>
+                            <a href="./faces/assetHolder.xhtml" style="padding-right: 10px;text-decoration: none"> 
+                                <img src="img/employee.png" title="Employee Module" />
+                            </a>
+                            <a href="./faces/index.xhtml" style="padding-right: 10px;text-decoration: none"> 
+                                <img src="img/back_to_home.png" title="Home" />
+                            </a>
+                            <a href="./faces/admin.xhtml" style="padding-right: 10px;text-decoration: none"> 
+                                <img src="img/admin.png" title="Admin" />
+                            </a>
+                        </div>
+                    </form>
+                </h:panelGroup>
+            </div>
+        </div><p:dataTable id="employee_equipTable" var="equipment" value="#{assetHolderBean.selectedAssetHolder.equipmentCollection}" rowKey="#{equipment.serialNumber}" paginator="true" rows="15"
+                           filteredValue="#{assetHolderBean.filteredEquipment}" >
+
+            <f:facet name="header">
+                <h:outputText value ="#{assetHolderBean.selectedAssetHolder.fullName}"></h:outputText>
+            </f:facet>
+
+
+            <!--Field Column-->
+            <p:column headerText="Item">
+                #{equipment.model}   
+            </p:column>  
+
+            <p:column headerText="Description">
+
+                #{equipment.description}
+
+            </p:column>                
+
+            <p:column headerText="Condition">
+
+                #{equipment.eqCondition}
+
+            </p:column>
+
+            <p:column headerText="ITC Tag #"  filterBy="#{equipment.itcTag}">
+                #{equipment.barcode}
+            </p:column>  
+
+            <p:column headerText="Bar Code"  filterBy="#{equipment.barcode}">
+                #{equipment.barcode}
+            </p:column>     
+
+        </p:dataTable> 
+
+    </h:body>
+</html>

@@ -39,10 +39,9 @@ public class AssetHolderFacade extends AbstractFacade<AssetHolder> {
       public AssetHolder findBySocialSecruity(String social){
        StringBuilder queryString = new StringBuilder();
        queryString.append("SELECT e FROM AssetHolder e ");
-       queryString.append("WHERE e.ssn = :social");
-       
+       queryString.append("WHERE e.ssn = ");
+       queryString.append(social);
        TypedQuery<AssetHolder> query = em.createQuery(queryString.toString(),AssetHolder.class);
-       query.setParameter("social", social);
        return query.getSingleResult();
     }
       

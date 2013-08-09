@@ -6,6 +6,7 @@ package beans;
 
 import entities.AssetHolder;
 import entities.Equipment;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -14,7 +15,6 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import sessions.AssetHolderFacade;
@@ -222,6 +222,45 @@ public class AssetHolderBean {
       
       
       //check if item is in inventory
+    }
+       
+        public void checkOutItem(){
+        if(currentEquipment == null || currentEquipment.getAssetHolderId()!=null){
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                "Check-Out Fail", "Item not registered to this employee"));
+             
+         processingBean.setItemCheckedOut(false);
+         processingBean.resetFields();
+    
+       }else{
+        
+          //currentAssetHolder = assetHolderFacade.findBySocialSecruity(checkOutTo);
+                
+          if(selectedAssetHolder.getEquipmentCollection().add(currentEquipment))
+                log.info("successful");
+          else
+                log.info("error");
+
+           assetHolderFacade.edit(selectedAssetHolder);
+           assetHolderFacade.updateTable();
+
+          //Deletes currentEquipment from currentAssetHolder
+           currentEquipment.setAssetHolderId(selectedAssetHolder);
+           equipmentFacade.edit(currentEquipment);
+           equipmentFacade.updateTable();
+
+
+//       
+       processingBean.setDateNow(new Date());
+//       timeStamp = new EquipmentProcessing();
+
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                   "Check Out Successful", processingBean.getDateNow().toString()));
+
+       processingBean.resetFields();
+       processingBean.setItemCheckedOut(false);
+          
+       }      
     }
 
     

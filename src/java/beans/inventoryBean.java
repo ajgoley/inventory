@@ -5,7 +5,7 @@
 package beans;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import entities.Equipment;
 import java.util.List;
 import javax.ejb.EJB;
@@ -16,7 +16,7 @@ import sessions.EquipmentFacade;
  * @author Internship
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class inventoryBean {
     @EJB
     EquipmentFacade equipmentFacade = new EquipmentFacade();

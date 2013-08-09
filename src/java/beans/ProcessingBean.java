@@ -216,7 +216,8 @@ public class ProcessingBean {
     public AssetHolder findAssetHolder(){
          Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 	 assetHolder_id = params.get("asset_holder_id");
-         
+         log.info("asset holder id:");
+         log.info(assetHolder_id);
         
          return assetHolderFacade.findBySocialSecruity(assetHolder_id);
 
@@ -269,8 +270,8 @@ public class ProcessingBean {
          resetFields();
     
        }else{
-            
-          currentAssetHolder = assetHolderFacade.findBySocialSecruity(checkOutTo);
+          findAssetHolder();
+          //currentAssetHolder = assetHolderFacade.findBySocialSecruity(checkOutTo);
                 
           if(currentAssetHolder.getEquipmentCollection().add(currentEquipment))
                 log.info("successful");

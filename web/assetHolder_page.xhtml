@@ -145,15 +145,15 @@
                                 <h:outputText value="Location:" />  
                                 <p:inputText id="location_out" value="#{assetHolderBean.currentEquipment.locationArea}" />
                                 
-                                <h:outputText value="Check out to:" /> 
+<!--                                <h:outputText value="Check out to:" /> 
                                 <h:outputText value="Enter SSN:" /> 
-                                <p:inputText id="person_out" value="#{processingBean.checkOutTo}" />
+                                <p:inputText id="person_out" value="#{processingBean.checkOutTo}" />-->
 
                             </p:panelGrid> 
                             <p:panel>
-                                <p:commandButton value="Confirm" actionListener="#{processingBean.checkOutItem}" ajax="false" update=":checkInOutPanel:checkOut_form"/> 
+                                <p:commandButton value="Confirm" actionListener="#{assetHolderBean.checkOutItem}" ajax="false" update=":checkInOutPanel:checkOut_form"/> 
                                      <f:param name="asset_holder_id" value="#{assetHolderBean.selectedAssetHolder}" />
-                                
+                                     
                                 <p:commandButton value="Cancel" actionListener="#{processingBean.cancelOutDisplay}" ajax="false" update=":checkInOutPanel:checkOut_form"/>
                                      
                             </p:panel>
