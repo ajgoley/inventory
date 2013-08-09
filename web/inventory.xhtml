@@ -32,7 +32,7 @@
                     </h:panelGroup>
                 </div>
             </div>
-            <p:dataTable id="assetHolderTable" var="item" value="#{inventoryBean.theEquipemntList}" rowKey="#{item.categoryId.categoryName}" paginator="true" rows="10"
+            <p:dataTable id="assetHolderTable" var="item" value="#{inventoryBean.theEquipemntList}" rowKey="#{item.categoryId.categoryName}" paginator="true" rows="25"
                          filteredValue="#{assetHolderBean.filteredAssetHolders}" >
 
                 <f:facet name="header">
