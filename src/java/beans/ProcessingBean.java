@@ -261,44 +261,44 @@ public class ProcessingBean {
        }      
     }
     
-    public void checkOutItem(){
-        if(currentEquipment == null || currentEquipment.getAssetHolderId()!=null){
-          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                "Check-Out Fail", "Item not registered to this employee"));
-             
-         setItemCheckedOut(false);
-         resetFields();
-    
-       }else{
-          findAssetHolder();
-          //currentAssetHolder = assetHolderFacade.findBySocialSecruity(checkOutTo);
-                
-          if(currentAssetHolder.getEquipmentCollection().add(currentEquipment))
-                log.info("successful");
-          else
-                log.info("error");
-
-           assetHolderFacade.edit(currentAssetHolder);
-           assetHolderFacade.updateTable();
-
-          //Deletes currentEquipment from currentAssetHolder
-           currentEquipment.setAssetHolderId(currentAssetHolder);
-           equipmentFacade.edit(currentEquipment);
-           equipmentFacade.updateTable();
-
-
-//       
-       dateNow = new Date();
-//       timeStamp = new EquipmentProcessing();
-
-       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                   "Check Out Successful", dateNow.toString()));
-
-       resetFields();
-       setItemCheckedOut(false);
-          
-       }      
-    }
+//    public void checkOutItem(){
+//        if(currentEquipment == null || currentEquipment.getAssetHolderId()!=null){
+//          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+//                "Check-Out Fail", "Item not registered to this employee"));
+//             
+//         setItemCheckedOut(false);
+//         resetFields();
+//    
+//       }else{
+//          findAssetHolder();
+//          //currentAssetHolder = assetHolderFacade.findBySocialSecruity(checkOutTo);
+//                
+//          if(currentAssetHolder.getEquipmentCollection().add(currentEquipment))
+//                log.info("successful");
+//          else
+//                log.info("error");
+//
+//           assetHolderFacade.edit(currentAssetHolder);
+//           assetHolderFacade.updateTable();
+//
+//          //Deletes currentEquipment from currentAssetHolder
+//           currentEquipment.setAssetHolderId(currentAssetHolder);
+//           equipmentFacade.edit(currentEquipment);
+//           equipmentFacade.updateTable();
+//
+//
+////       
+//       dateNow = new Date();
+////       timeStamp = new EquipmentProcessing();
+//
+//       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+//                   "Check Out Successful", dateNow.toString()));
+//
+//       resetFields();
+//       setItemCheckedOut(false);
+//          
+//       }      
+//    }
     
     
     
