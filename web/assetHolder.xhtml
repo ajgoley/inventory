@@ -35,6 +35,9 @@
 
 
         <h:form id="asset_holder_display">
+            
+            <p:growl id="msgs" showDetail="true" />  
+            
             <p:dataTable id="assetHolderTable" var="assetHolder" value="#{assetHolderBean.assetHolderDisplayTable}" rowKey="#{assetHolder.lastName}" paginator="true" rows="10"
                          filteredValue="#{assetHolderBean.filteredAssetHolders}" >
 

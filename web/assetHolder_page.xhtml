@@ -89,7 +89,7 @@
 
                             </p:panelGrid> 
                             <p:panel>
-                                <p:commandButton value="Confirm" actionListener="#{processingBean.checkInItem}" action="assetHolder" update=":checkInOutPanel:checkIn_form" /> 
+                                <p:commandButton value="Confirm" actionListener="#{processingBean.checkInItem}" ajax ="false" action="assetHolder" update=":checkInOutPanel:checkIn_form" /> 
                                      <f:param name="asset_holder_id" value="#{assetHolderBean.selectedAssetHolder}" />
                                     
                                 
