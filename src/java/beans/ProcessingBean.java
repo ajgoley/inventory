@@ -9,6 +9,7 @@ import entities.AssetHolder;
 import entities.Equipment;
 import entities.EquipmentProcessing;
 import java.util.Date;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -16,6 +17,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import sessions.EquipmentFacade;
 import java.util.logging.Logger;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import sessions.AssetHolderFacade;
 import sessions.EquipmentProcessingFacade;
@@ -40,7 +42,8 @@ public class ProcessingBean {
    @EJB
    private AssetHolderFacade assetHolderFacade;
     
-
+ 
+   
      private static Logger log = java.util.logging.Logger.getLogger("ProcessingBean");
     
     private Equipment currentEquipment;
@@ -53,6 +56,10 @@ public class ProcessingBean {
     private String currentITC;
     private String currentBarcode;
     private String currentSerialNum;
+    
+    private String assetHolder_id;
+    
+    private String checkOutTo;
 //    private String signedOffBy;
 //    
 //    private EquipmentProcessing timeStamp;
@@ -116,11 +123,43 @@ public class ProcessingBean {
     public void setCurrentBarcode(String currentBarcode) {
         this.currentBarcode = currentBarcode;
     }
+
+    public String getAssetHolder_id() {
+        return assetHolder_id;
+    }
+
+    public void setAssetHolder_id(String assetHolder_id) {
+        this.assetHolder_id = assetHolder_id;
+    }
+
+    public String getCheckOutTo() {
+        return checkOutTo;
+    }
+
+    public void setCheckOutTo(String checkOutTo) {
+        this.checkOutTo = checkOutTo;
+    }
+
+  
     
-    public Equipment findEquipmentByITC(){
+    
+    
+    public Equipment findEquipment(){
         
-        setCurrentEquipment(equipmentFacade.findEquipmentByITC(currentITC));
+        log.info("ITC "+currentITC);
+        log.info("Serial "+currentSerialNum);
+                
+        currentITC = currentITC.trim();
+        currentSerialNum = currentSerialNum.trim();
         
+        if(!(currentITC.equals(""))){
+            log.info("Setting ITC");
+            setCurrentEquipment(equipmentFacade.findEquipmentByITC(currentITC));
+        }
+         if(!(currentSerialNum.equals(""))){
+            log.info("Setting Serial");
+            setCurrentEquipment(equipmentFacade.findEquipmentBySerial(currentSerialNum));
+        }
         return currentEquipment;
     }
 
@@ -150,15 +189,40 @@ public class ProcessingBean {
 //    }
 
     
+      public void resetFields() {
+        setCurrentITC(null);
+        setCurrentBarcode(null);
+        setCurrentSerialNum(null); 
+          
+    }
+    
       public void cancelInDisplay(){
         setItemCheckedIn(false);
+        resetFields();
     }
       
      public void cancelOutDisplay(){
         setItemCheckedOut(false);
+        resetFields();
     }
     
-    
+      private boolean isNullOrEmpty(String value) {
+        if (value == null || value.length() == 0) {
+            return true;
+        }
+        return false;
+    }
+     
+    public AssetHolder findAssetHolder(){
+         Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+	 assetHolder_id = params.get("asset_holder_id");
+         
+        
+         return assetHolderFacade.findBySocialSecruity(assetHolder_id);
+
+    }
+     
+     
     public void checkInItem(){
         
        //Updates any changed fields in equipment
@@ -168,6 +232,7 @@ public class ProcessingBean {
                 "Check-In Fail", "Item not registered to this employee"));
              
          setItemCheckedIn(false);
+         resetFields();
     
        }else{
              if(currentEquipment.getAssetHolderId().getEquipmentCollection().remove(currentEquipment))
@@ -190,30 +255,29 @@ public class ProcessingBean {
            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
                    "Check In Successful", dateNow.toString()));
 
-           setItemCheckedIn(false);
-          
+           resetFields();
+          setItemCheckedIn(false);
        }      
     }
     
     public void checkOutItem(){
-        if(currentEquipment == null || currentEquipment.getAssetHolderId()==null){
+        if(currentEquipment == null || currentEquipment.getAssetHolderId()!=null){
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
                 "Check-Out Fail", "Item not registered to this employee"));
              
          setItemCheckedOut(false);
+         resetFields();
     
        }else{
             
-            currentAssetHolder = currentEquipment.getAssetHolderId();
-              
-           
-            
-             if(currentAssetHolder.getEquipmentCollection().add(currentEquipment))
-           log.info("successful");
-       else
-               log.info("error");
+          currentAssetHolder = assetHolderFacade.findBySocialSecruity(checkOutTo);
+                
+          if(currentAssetHolder.getEquipmentCollection().add(currentEquipment))
+                log.info("successful");
+          else
+                log.info("error");
 
-           assetHolderFacade.edit(currentEquipment.getAssetHolderId());
+           assetHolderFacade.edit(currentAssetHolder);
            assetHolderFacade.updateTable();
 
           //Deletes currentEquipment from currentAssetHolder
@@ -226,10 +290,11 @@ public class ProcessingBean {
        dateNow = new Date();
 //       timeStamp = new EquipmentProcessing();
 
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
-                   "Check In Successful", dateNow.toString()));
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                   "Check Out Successful", dateNow.toString()));
 
-           setItemCheckedOut(false);
+       resetFields();
+       setItemCheckedOut(false);
           
        }      
     }

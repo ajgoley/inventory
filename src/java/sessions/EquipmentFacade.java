@@ -75,6 +75,21 @@ public class EquipmentFacade extends AbstractFacade<Equipment> {
 
     }
     
+     public Equipment findEquipmentBySerial(String serial) {
+        String queryString = "SELECT e FROM Equipment e WHERE e.serialNumber = :serial";
+
+        TypedQuery<Equipment> query = em.createQuery(queryString, Equipment.class);
+
+        query.setParameter("serial", serial);
+
+         try{
+          return query.getSingleResult();
+      }catch(NoResultException e){
+          return null;
+      }
+
+    }
+    
     public void persist(Equipment e){
         em.persist(e);
     }

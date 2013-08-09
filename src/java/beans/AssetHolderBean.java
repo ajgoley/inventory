@@ -50,7 +50,8 @@ public class AssetHolderBean {
   private List<Equipment> filteredEquipment;
   
   private String assetHolder_id;
-  private String currentEquipment_id;
+  private String currentEquipment_itc;
+  private String currentEquipment_serial;
   
   //Table in AssetHolder.xhtml
   private List<AssetHolder> assetHolderDisplayTable; 
@@ -134,7 +135,8 @@ public class AssetHolderBean {
     public void init(){
          Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
 	 assetHolder_id = params.get("asset_holder_id");  
-         currentEquipment_id = params.get("currentEquipment_id");
+         currentEquipment_itc = params.get("currentEquipment_itc");
+         currentEquipment_serial = params.get("currentEquipment_serial");
 //         
 //         if(assetHolder_id == null){
 //             log.info("assetHolder is null");
@@ -151,10 +153,17 @@ public class AssetHolderBean {
              //log.info(selectedAssetHolder.getFullName());
          }
          
-          if(!isNullOrEmpty(currentEquipment_id)){
+          if(!isNullOrEmpty(currentEquipment_itc)){
               log.info("setting equipment");
-              currentEquipment=equipmentFacade.findEquipmentByITC(currentEquipment_id);
+              currentEquipment=equipmentFacade.findEquipmentByITC(currentEquipment_itc);
               log.info(currentEquipment.getModel());
+             
+          }
+           if(!isNullOrEmpty(currentEquipment_serial)){
+              log.info("setting equipment");
+              currentEquipment=equipmentFacade.findEquipmentBySerial(currentEquipment_serial);
+              log.info(currentEquipment.getModel());
+             
           }
     }
     
@@ -163,16 +172,17 @@ public class AssetHolderBean {
      public void displayCheckIn(){
       
       log.info("display being called");
-      processingBean.findEquipmentByITC();  
+      processingBean.findEquipment();  
       setCurrentEquipment(processingBean.getCurrentEquipment());
       
       if(currentEquipment == null){
-          
+           processingBean.resetFields();
             FacesMessage msg = new FacesMessage("Check-In Error", "ITC Tag Number: "+processingBean.getCurrentITC()+" not found in inventory");
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
       }else{
           processingBean.setItemCheckedIn(true);
+          processingBean.resetFields();
           log.info(currentEquipment.getModel());
           if(processingBean.itemCheckedIn == true){
               log.info("TRUE");
@@ -189,7 +199,7 @@ public class AssetHolderBean {
        public void displayCheckOut(){
       
       log.info("display being called");
-      processingBean.findEquipmentByITC();  
+      processingBean.findEquipment();  
       setCurrentEquipment(processingBean.getCurrentEquipment());
       
       if(currentEquipment == null){
@@ -197,9 +207,11 @@ public class AssetHolderBean {
             FacesMessage msg = new FacesMessage("Check-In Error", "ITC Tag Number: "+processingBean.getCurrentITC()+" not found in inventory");
 
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            processingBean.resetFields();
       }else{
           processingBean.setItemCheckedOut(true);
           log.info(currentEquipment.getModel());
+          processingBean.resetFields();
           if(processingBean.itemCheckedIn == true){
               log.info("TRUE");
 //              FacesMessage msg = new FacesMessage("Hello "+processingBean.getCurrentITC()+" "+currentEquipment.getModel());

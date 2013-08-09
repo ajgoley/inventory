@@ -51,13 +51,16 @@
                             <h:outputLabel style="font-weight: bold" value="ITC Tag Number: " />  
                             <p:inputText id="itc_number_in" value="#{assetHolderBean.processingBean.currentITC}"/>
 
-                            <h:outputLabel style="font-weight: bold" value="Barcode #: " />  
-                            <p:inputText id="barcode_in" value="#{assetHolderBean.processingBean.currentBarcode}"/>  
 
+                            <h:outputLabel style="font-weight: bold" value="SerialNumber #: " />  
+                            <p:inputText id="serial_in" value="#{assetHolderBean.processingBean.currentSerialNum}"/> 
+                            
 
                             <p:commandButton value="Check-in" actionListener="#{assetHolderBean.displayCheckIn}" update=":checkInOutPanel:checkIn_form">
 
-                                <f:param name="currentEquipment_id" value="#{assetHolderBean.processingBean.currentEquipment.itcTag}" />
+                                <f:param name="currentEquipment_itc" value="#{assetHolderBean.processingBean.currentEquipment.itcTag}" />
+                                <f:param name="currentEquipment_serial" value="#{assetHolderBean.processingBean.currentEquipment.serialNumber}" />
+                               
 
                             </p:commandButton>
 
@@ -86,14 +89,12 @@
 
                             </p:panelGrid> 
                             <p:panel>
-                                <p:commandButton value="Confirm" actionListener="#{processingBean.checkInItem}" ajax="false" update=":checkInOutPanel:checkIn_form" /> 
+                                <p:commandButton value="Confirm" actionListener="#{processingBean.checkInItem}" action="assetHolder" update=":checkInOutPanel:checkIn_form" /> 
                                      <f:param name="asset_holder_id" value="#{assetHolderBean.selectedAssetHolder}" />
+                                    
                                 
                                 <p:commandButton value="Cancel" actionListener="#{processingBean.cancelInDisplay}" ajax="false" update=":checkInOutPanel:checkIn_form"/>
-                                  
-                             
-                                
-                                
+   
                             </p:panel>
                         </p:dialog>
 
@@ -108,9 +109,6 @@
                         <h:panelGrid columns="2" cellpadding="10">
                             <h:outputLabel style="font-weight: bold" value="ITC Tag Number: " />  
                             <p:inputText id="itc_number_out" value="#{assetHolderBean.processingBean.currentITC}"/>
-
-                            <h:outputLabel style="font-weight: bold" value="Barcode #: " />  
-                            <p:inputText id="barcode_out" value="#{assetHolderBean.processingBean.currentBarcode}"/> 
                             
                             <h:outputLabel style="font-weight: bold" value="SerialNumber #: " />  
                             <p:inputText id="serial_out" value="#{assetHolderBean.processingBean.currentSerialNum}"/> 
@@ -146,6 +144,10 @@
 
                                 <h:outputText value="Location:" />  
                                 <p:inputText id="location_out" value="#{assetHolderBean.currentEquipment.locationArea}" />
+                                
+                                <h:outputText value="Check out to:" /> 
+                                <h:outputText value="Enter SSN:" /> 
+                                <p:inputText id="person_out" value="#{processingBean.checkOutTo}" />
 
                             </p:panelGrid> 
                             <p:panel>
@@ -153,10 +155,7 @@
                                      <f:param name="asset_holder_id" value="#{assetHolderBean.selectedAssetHolder}" />
                                 
                                 <p:commandButton value="Cancel" actionListener="#{processingBean.cancelOutDisplay}" ajax="false" update=":checkInOutPanel:checkOut_form"/>
-                                  
-                             
-                                
-                                
+                                     
                             </p:panel>
                         </p:dialog>
                         
@@ -195,12 +194,18 @@
                 </p:column>
 
                 <p:column headerText="ITC Tag #"  filterBy="#{equipment.itcTag}">
-                #{equipment.barcode}
+                #{equipment.itcTag}
                 </p:column>  
 
+                 <p:column headerText="Serial #"  filterBy="#{equipment.serialNumber}">
+                #{equipment.serialNumber}
+                </p:column>   
+                
                 <p:column headerText="Bar Code"  filterBy="#{equipment.barcode}">
                 #{equipment.barcode}
-                </p:column>     
+                </p:column>   
+                
+               
 
             </p:dataTable> 
         </p:panel>

@@ -50,4 +50,14 @@ public class AssetHolderFacade extends AbstractFacade<AssetHolder> {
           em.persist(a);
       }
     
+      public AssetHolder findByName(String name){
+          StringBuilder queryString = new StringBuilder();
+          queryString.append("SELECT e FROM AssetHolder e ");
+          queryString.append("WHERE e.ssn LIKE = :name");
+
+          TypedQuery<AssetHolder> query = em.createQuery(queryString.toString(), AssetHolder.class);
+          query.setParameter("name", name);
+          return query.getSingleResult();
+      }
+      
 }
